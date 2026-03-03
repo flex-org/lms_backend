@@ -23,16 +23,17 @@ class PlatformCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'required|string',
-            'phone' => 'required|string',
+            'email' => 'required|email|max:255|unique:admins,email',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|unique:admins,phone',
             'domain' => 'required|string|max:255|unique:platforms,domain',
             'storage' => 'required|integer|min:50',
             'capacity' => 'required|integer|min:100',
-            'selling_systems' => 'required|array',
-            'selling_systems.*' => 'required|integer',
-            'features' => 'required|array',
-            'features.*' => 'required|integer',
+            'mobile_app' => 'sometimes|boolean',
+            'selling_systems' => 'required|array|min:1',
+            'selling_systems.*' => 'required|integer|distinct|exists:selling_systems,id',
+            'features' => 'required|array|min:1',
+            'features.*' => 'required|integer|distinct|exists:features,id',
         ];
     }
 }
