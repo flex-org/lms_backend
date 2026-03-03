@@ -19,7 +19,7 @@ class PlatformController extends Controller
      */
     public function store(PlatformCreateRequest $request)
     {
-        $platform = $this->service->create($request);
+        $platform = $this->service->create($request->validated());
         return ApiResponse::created(data:$platform,);
     }
 
