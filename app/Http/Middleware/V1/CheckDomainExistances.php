@@ -11,6 +11,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckDomainExistances
 {
+    public function __construct(private readonly PlatformService $platformService)
+    {
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -19,8 +23,8 @@ class CheckDomainExistances
     public function handle(Request $request, Closure $next): Response
     {
         $domain = $request->header('domain');
-        $domainExists = PlatformService::domainExists($domain);
-        if (!$domainExists) {
+
+        if (! $this->platformService->domainExists($domain)) {
             throw new NotFoundHttpException();
         }
 
@@ -28,5 +32,4 @@ class CheckDomainExistances
 
         return $next($request);
     }
-
 }
