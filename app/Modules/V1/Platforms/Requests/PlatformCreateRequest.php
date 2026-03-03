@@ -24,7 +24,7 @@ class PlatformCreateRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:admins,email',
-            'password' => 'required|string',
+            'password' => 'required|string|min:8',
             'phone' => 'required|string|unique:admins,phone',
             'domain' => 'required|string|max:255|unique:platforms,domain',
             'storage' => 'required|integer|min:50',

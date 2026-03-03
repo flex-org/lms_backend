@@ -4,23 +4,24 @@ namespace App\Modules\V1\Platforms\Controllers;
 
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Modules\V1\Platforms\Application\CreatePlatform\CreatePlatformAction;
+use App\Modules\V1\Platforms\Application\CreatePlatform\CreatePlatformData;
 use App\Modules\V1\Platforms\Requests\PlatformCreateRequest;
-use App\Modules\V1\Platforms\Services\PlatformService;
 
 class PlatformController extends Controller
 {
-    public function __construct(public PlatformService $service)
+    public function __construct(private readonly CreatePlatformAction $createPlatformAction)
     {
     }
 
     /**
-     *
      * Store a newly created resource in storage.
      */
     public function store(PlatformCreateRequest $request)
     {
-        $platform = $this->service->create($request->validated());
-        return ApiResponse::created(data:$platform,);
+        $platform = $this->createPlatformAction->execute(CreatePlatformData::fromArray($request->validated()));
+
+        return ApiResponse::created(data: $platform);
     }
 
     /**
@@ -28,7 +29,6 @@ class PlatformController extends Controller
      */
     public function show(string $id)
     {
-
     }
 
     /**
@@ -37,5 +37,4 @@ class PlatformController extends Controller
     public function destroy(string $id)
     {
     }
-
 }
