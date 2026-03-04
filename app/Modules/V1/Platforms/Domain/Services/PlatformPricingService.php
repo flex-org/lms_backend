@@ -2,8 +2,8 @@
 
 namespace App\Modules\V1\Platforms\Domain\Services;
 
-use App\Modules\V1\Features\Enums\DynamicFeaturesValue;
-use App\Modules\V1\Features\Models\DynamicFeatures;
+use App\Modules\V1\Features\Domain\Enums\DynamicFeaturesValue;
+use App\Modules\V1\Features\Domain\Models\DynamicFeatures;
 use Illuminate\Support\Collection;
 
 class PlatformPricingService

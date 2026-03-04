@@ -7,7 +7,7 @@ use App\Modules\V1\Platforms\Domain\Repositories\FeatureRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Repositories\ThemeRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Services\PlatformPricingService;
-use App\Modules\V1\Platforms\Enums\PLatformStatus;
+use App\Modules\V1\Platforms\Domain\Enums\PLatformStatus;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 

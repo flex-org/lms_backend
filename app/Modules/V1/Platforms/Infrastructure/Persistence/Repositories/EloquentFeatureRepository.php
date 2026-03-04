@@ -2,7 +2,7 @@
 
 namespace App\Modules\V1\Platforms\Infrastructure\Persistence\Repositories;
 
-use App\Modules\V1\Features\Models\Feature;
+use App\Modules\V1\Features\Domain\Models\Feature;
 use App\Modules\V1\Platforms\Domain\Repositories\FeatureRepositoryInterface;
 use Illuminate\Support\Collection;
 
