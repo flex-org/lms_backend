@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use App\Modules\V1\Users\Controllers\UserAuthController;
-use App\Modules\V1\Features\Controllers\FeatureController;
+use App\Modules\V1\Users\Presentation\Http\Controllers\UserAuthController;
+use App\Modules\V1\Features\Presentation\Http\Controllers\FeatureController;
 use App\Modules\V1\Platforms\Presentation\Http\Controllers\PlatformController;
 use App\Modules\V1\AIChatBot\Controllers\AIChatBotController;
 use \App\Modules\V1\Initialization\Controllers\PlatformInitializationController;
