@@ -1,0 +1,25 @@
+<?php
+namespace App\Modules\V1\Dashboard\Admins\Presentation\Http\Controllers;
+
+
+use App\Http\Controllers\Controller;
+use App\Modules\V1\Dashboard\Admins\Application\Services\AdminAuthServices;
+use App\Modules\V1\Utilities\Support\Contracts\Auth\AuthenticatableInterface;
+use App\Modules\V1\Utilities\Presentation\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
+
+class AdminAuthController extends Controller implements AuthenticatableInterface
+{
+    public function __construct(public AdminAuthServices $authServices) {}
+
+    public function login(LoginRequest $loginRequest)
+    {
+        return $this->authServices->login($loginRequest->only(['email','password']));
+    }
+
+    public function logout(Request $request)
+    {
+        return $this->authServices->logout($request);
+    }
+
+}
