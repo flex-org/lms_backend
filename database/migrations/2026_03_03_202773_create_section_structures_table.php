@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('locale')->index();
             $table->text('label')->nullable();
             $table->text('placeholder')->nullable();
-            $table->string('locale')->index();
             $table->unique(['section_structure_id', 'locale']);
         });
 

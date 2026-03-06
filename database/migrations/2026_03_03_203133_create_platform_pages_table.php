@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('platform_id')->constrained()->cascadeOnDelete();
             $table->foreignId('page_id')->constrained()->cascadeOnDelete();
             $table->boolean('active')->default(true);
-            $table->primary(['platform_id', 'page_id']);
+            $table->unique(['platform_id', 'page_id']);
             $table->timestamps();
         });
     }
