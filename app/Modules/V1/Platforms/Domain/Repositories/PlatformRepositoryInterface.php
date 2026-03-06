@@ -2,7 +2,7 @@
 
 namespace App\Modules\V1\Platforms\Domain\Repositories;
 
-use App\Modules\V1\Platforms\Models\Platform;
+use App\Modules\V1\Platforms\Domain\Models\Platform;
 use Illuminate\Support\Collection;
 
 interface PlatformRepositoryInterface

@@ -3,7 +3,7 @@
 namespace App\Modules\V1\Platforms\Infrastructure\Persistence\Repositories;
 
 use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
-use App\Modules\V1\Platforms\Models\Platform;
+use App\Modules\V1\Platforms\Domain\Models\Platform;
 use Illuminate\Support\Collection;
 
 class EloquentPlatformRepository implements PlatformRepositoryInterface

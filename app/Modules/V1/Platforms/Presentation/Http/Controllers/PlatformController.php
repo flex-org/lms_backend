@@ -4,8 +4,8 @@ namespace App\Modules\V1\Platforms\Presentation\Http\Controllers;
 
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Modules\V1\Platforms\Application\CreatePlatform\CreatePlatformAction;
-use App\Modules\V1\Platforms\Application\CreatePlatform\CreatePlatformData;
+use App\Modules\V1\Platforms\Application\UseCases\CreatePlatform\CreatePlatformAction;
+use App\Modules\V1\Platforms\Application\DTOs\CreatePlatformData;
 use App\Modules\V1\Platforms\Presentation\Http\Requests\PlatformCreateRequest;
 
 class PlatformController extends Controller
