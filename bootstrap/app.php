@@ -3,6 +3,7 @@
 use App\Facades\ApiResponse;
 use App\Http\Middleware\V1\CheckDomainAccess;
 use App\Http\Middleware\V1\CheckDomainExistances;
+use App\Http\Middleware\V1\CheckFeatureAccess;
 use App\Http\Middleware\V1\SetLocale;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -31,7 +32,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'locale' => SetLocale::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'domainExists' => CheckDomainExistances::class,
-            'domainAccess' => CheckDomainAccess::class
+            'domainAccess' => CheckDomainAccess::class,
+            'featureAccess' => CheckFeatureAccess::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

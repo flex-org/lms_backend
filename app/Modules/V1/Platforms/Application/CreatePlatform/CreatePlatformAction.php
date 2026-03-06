@@ -7,7 +7,7 @@ use App\Modules\V1\Platforms\Domain\Repositories\FeatureRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Repositories\ThemeRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Services\PlatformPricingService;
-use App\Modules\V1\Platforms\Enums\PLatformStatus;
+use App\Modules\V1\Platforms\Domain\Enums\PLatformStatus;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
@@ -56,6 +56,8 @@ class CreatePlatformAction
                 'phone' => $data->phone,
                 'password' => $data->password,
             ]);
+
+            $admin->givePermissionTo($features->map(fn ($feature) => 'feature-' . $feature['id'])->toArray());
 
             return [
                 'platform_url' => $platform->domain . '.' . config('app.frontend_url'),

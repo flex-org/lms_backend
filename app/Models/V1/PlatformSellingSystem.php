@@ -2,7 +2,7 @@
 
 namespace App\Models\V1;
 
-use App\Modules\V1\Platforms\Models\Platform;
+use App\Modules\V1\Platforms\Domain\Models\Platform;
 use Illuminate\Database\Eloquent\Model;
 
 class PlatformSellingSystem extends Model
