@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Modules\V1\Features\Enums\DynamicFeaturesValue;
-use App\Modules\V1\Features\Models\DynamicFeatures;
+use App\Modules\V1\Features\Domain\Enums\DynamicFeaturesValue;
+use App\Modules\V1\Features\Domain\Models\DynamicFeatures;
 use Illuminate\Database\Seeder;
 
 class DynamicFeatureSeeder extends Seeder

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Modules\V1\Themes\Models\Theme;
+use App\Modules\V1\Themes\Domain\Models\Theme;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 

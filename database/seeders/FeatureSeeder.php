@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Modules\Features\Models\DynamicFeatures;
 use Illuminate\Database\Seeder;
-use App\Modules\V1\Features\Models\Feature;
+use App\Modules\V1\Features\Domain\Models\Feature;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
 
@@ -284,11 +283,13 @@ class FeatureSeeder extends Seeder
             }
             $feature->save();
 
-            // إنشاء Permission مرتبط بالـ Feature
-            Permission::firstOrCreate([
-                'name' => 'feature-' . $feature->id,
-                'guard_name' => 'sanctum',
-            ]);
+            // إنشاء Permissions مرتبطة بالـ Feature لكل من حراس sanctum و admins
+            foreach (['sanctum', 'admins'] as $guard) {
+                Permission::firstOrCreate([
+                    'name' => 'feature-' . $feature->id,
+                    'guard_name' => $guard,
+                ]);
+            }
         }
     }
 }
