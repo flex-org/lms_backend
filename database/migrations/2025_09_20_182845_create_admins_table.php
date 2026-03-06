@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('domain')->index();
+            $table->foreignId('platform_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone')->unique();
+            $table->string('email');
+            $table->string('phone');
             $table->string('password');
+            $table->unique(['email','platform_id']);
+            $table->unique(['phone','platform_id']);
             $table->timestamps();
         });
     }

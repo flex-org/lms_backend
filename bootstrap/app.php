@@ -12,6 +12,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -20,9 +21,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
@@ -33,30 +34,44 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'domainExists' => CheckDomainExistances::class,
             'domainAccess' => CheckDomainAccess::class,
-            'featureAccess' => CheckFeatureAccess::class
+            'featureAccess' => CheckFeatureAccess::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (ValidationException $e, $request) {
+            return ApiResponse::validationError(
+                $e->errors(),
+                $e->getMessage(),
+            );
+        });
+
         $exceptions->render(function (UnauthorizedException $e, $request) {
             return ApiResponse::unauthorized('auth.unauthorized');
         });
+
         $exceptions->render(function (AuthenticationException $e, $request) {
             return ApiResponse::unauthorized('auth.unauthorized');
         });
 
-        $exceptions->render(function (AccessDeniedHttpException | AuthorizationException $e, $request) {
-            return ApiResponse::forbidden();
+        $exceptions->render(function (AccessDeniedHttpException|AuthorizationException $e, $request) {
+            $message = $e->getMessage() ?: 'apiMessages.forbidden';
+
+            return ApiResponse::forbidden($message);
         });
 
-        $exceptions->render(function (NotFoundHttpException | ModelNotFoundException $e, $request) {
+        $exceptions->render(function (NotFoundHttpException|ModelNotFoundException $e, $request) {
             return ApiResponse::notFound();
         });
 
-        $exceptions->render(function (\DomainException $e, $request){
+        $exceptions->render(function (\DomainException $e, $request) {
             return ApiResponse::message($e->getMessage(), 400);
         });
 
-        $exceptions->render(function (HttpException $e, $request){
+        $exceptions->render(function (\InvalidArgumentException $e, $request) {
+            return ApiResponse::message($e->getMessage(), 422);
+        });
+
+        $exceptions->render(function (HttpException $e, $request) {
             return ApiResponse::message($e->getMessage(), $e->getStatusCode());
         });
     })->create();

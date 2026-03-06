@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\V1\Dashboard\Admins\Models\Admin;
+use App\Modules\V1\Admins\Domain\Models\Admin;
 
 return [
 

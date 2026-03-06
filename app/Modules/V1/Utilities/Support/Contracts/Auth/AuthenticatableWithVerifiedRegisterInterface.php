@@ -1,10 +1,11 @@
-<?php 
+<?php
+
 namespace App\Modules\V1\Utilities\Support\Contracts\Auth;
 
-use Illuminate\Http\Request;
-use App\Modules\V1\Utilities\Support\Services\OtpService;
-use App\Modules\V1\Utilities\Presentation\Http\Requests\OtpCheckRequest;
 use App\Modules\V1\Utilities\Presentation\Http\Requests\EmailVerificationRequest;
+use App\Modules\V1\Utilities\Presentation\Http\Requests\OtpCheckRequest;
+use App\Modules\V1\Utilities\Support\Services\OtpService;
+use Illuminate\Http\Request;
 
 interface AuthenticatableWithVerifiedRegisterInterface extends AuthenticatableInterface
 {

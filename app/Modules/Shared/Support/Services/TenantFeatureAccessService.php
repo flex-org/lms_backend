@@ -2,30 +2,31 @@
 
 namespace App\Modules\Shared\Support\Services;
 
+use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 class TenantFeatureAccessService
 {
+    public function __construct(
+        private readonly PermissionRegistryInterface $permissionRegistry,
+    ) {
+    }
+
     public function hasAccess(Authenticatable $user, string $feature): bool
     {
         if (! method_exists($user, 'hasPermissionTo')) {
             return false;
         }
 
-        $permission = $this->resolvePermission($feature);
+        $permission = $this->permissionRegistry->resolveFeaturePermission($feature);
+        $guard = $this->resolveGuard($user);
 
-        return $user->hasPermissionTo($permission, $this->resolveGuard($user));
-    }
-
-    private function resolvePermission(string $feature): string
-    {
-        if (is_numeric($feature)) {
-            return 'feature-' . $feature;
+        try {
+            return $user->hasPermissionTo($permission, $guard);
+        } catch (PermissionDoesNotExist) {
+            return false;
         }
-
-        $mapped = config('features.permissions.' . $feature);
-
-        return is_string($mapped) && $mapped !== '' ? $mapped : $feature;
     }
 
     private function resolveGuard(Authenticatable $user): ?string

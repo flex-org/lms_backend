@@ -3,6 +3,9 @@
 namespace Tests\Feature\V1;
 
 use App\Modules\V1\Admins\Domain\Models\Admin;
+use App\Modules\V1\Platforms\Domain\Models\Platform;
+use App\Modules\V1\Platforms\Domain\Enums\PLatformStatus;
+use App\Modules\V1\Themes\Domain\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,12 +32,23 @@ class AdminRolesPermissionsTest extends TestCase
     {
         $this->seed(\Database\Seeders\DatabaseSeeder::class);
 
+        $theme = Theme::first();
+        $platform = Platform::create([
+            'theme_id' => $theme->id,
+            'domain' => 'roles-domain',
+            'storage' => 100,
+            'capacity' => 200,
+            'has_mobile_app' => false,
+            'cost' => 0,
+            'status' => PLatformStatus::FREE_TRIAL,
+        ]);
+
         $owner = Admin::create([
             'name' => 'Owner',
             'email' => 'owner-role@example.com',
             'phone' => '01000000006',
             'password' => 'password123',
-            'domain' => 'roles-domain',
+            'platform_id' => $platform->id,
         ]);
         $owner->assignRole('owner');
         $owner->givePermissionTo('feature-1');
@@ -44,7 +58,7 @@ class AdminRolesPermissionsTest extends TestCase
             'email' => 'admin-role@example.com',
             'phone' => '01000000007',
             'password' => 'password123',
-            'domain' => 'roles-domain',
+            'platform_id' => $platform->id,
         ]);
         $admin->assignRole('admin');
 
@@ -52,4 +66,3 @@ class AdminRolesPermissionsTest extends TestCase
         $this->assertFalse($admin->hasPermissionTo('feature-1', 'admins'));
     }
 }
-

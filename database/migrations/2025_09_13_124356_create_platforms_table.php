@@ -20,6 +20,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('theme_id')->constrained()->cascadeOnDelete();
             $table->string('domain')->unique();
+            $table->string('name')->nullable();
+            $table->text('about')->nullable();
+            $table->json('key_words')->nullable();
             $table->integer('storage');
             $table->integer('capacity');
             $table->boolean('has_mobile_app')->default(false);

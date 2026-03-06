@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Modules\V1\Editor\Application\UseCases;
+
+use App\Modules\V1\Editor\Domain\Repositories\PlatformPageRepositoryInterface;
+use Illuminate\Support\Collection;
+
+final readonly class ListPlatformPagesUseCase
+{
+    public function __construct(
+        private PlatformPageRepositoryInterface $repository,
+    ) {
+    }
+
+    public function execute(int $platformId): Collection
+    {
+        return $this->repository->listByPlatform($platformId);
+    }
+}

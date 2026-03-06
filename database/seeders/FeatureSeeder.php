@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
 use Illuminate\Database\Seeder;
 use App\Modules\V1\Features\Domain\Models\Feature;
 use Illuminate\Support\Arr;
@@ -11,22 +12,17 @@ class FeatureSeeder extends Seeder
 {
     public function run(): void
     {
+        $registry = app(PermissionRegistryInterface::class);
+
         $features = [
-            // basic features
             [
                 'icon' => 'fa-book',
                 'price' => 50,
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Courses',
-                        'description' => 'Create and manage courses with lessons, videos and files',
-                    ],
-                    'ar' => [
-                        'name' => 'الكورسات',
-                        'description' => 'إنشاء وإدارة الكورسات مع الدروس والفيديوهات والملفات',
-                    ],
+                    'en' => ['name' => 'Courses', 'description' => 'Create and manage courses with lessons, videos and files'],
+                    'ar' => ['name' => 'الكورسات', 'description' => 'إنشاء وإدارة الكورسات مع الدروس والفيديوهات والملفات'],
                 ],
             ],
             [
@@ -35,14 +31,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Students Management',
-                        'description' => 'Manage students, enrollment and access permissions',
-                    ],
-                    'ar' => [
-                        'name' => 'إدارة الطلاب',
-                        'description' => 'إدارة الطلاب وتسجيلهم وصلاحيات الوصول',
-                    ],
+                    'en' => ['name' => 'Students Management', 'description' => 'Manage students, enrollment and access permissions'],
+                    'ar' => ['name' => 'إدارة الطلاب', 'description' => 'إدارة الطلاب وتسجيلهم وصلاحيات الوصول'],
                 ],
             ],
             [
@@ -51,14 +41,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Content Management',
-                        'description' => 'Upload and organize videos, files and learning materials',
-                    ],
-                    'ar' => [
-                        'name' => 'تنظيم المحتوى',
-                        'description' => 'رفع وتنظيم الفيديوهات والملفات والمواد التعليمية',
-                    ],
+                    'en' => ['name' => 'Content Management', 'description' => 'Upload and organize videos, files and learning materials'],
+                    'ar' => ['name' => 'تنظيم المحتوى', 'description' => 'رفع وتنظيم الفيديوهات والملفات والمواد التعليمية'],
                 ],
             ],
             [
@@ -67,14 +51,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Roles & Permissions',
-                        'description' => 'Control access levels for admins, instructors and students',
-                    ],
-                    'ar' => [
-                        'name' => 'الصلاحيات والأدوار',
-                        'description' => 'التحكم في صلاحيات الأدمن والطلاب',
-                    ],
+                    'en' => ['name' => 'Roles & Permissions', 'description' => 'Control access levels for admins, instructors and students'],
+                    'ar' => ['name' => 'الصلاحيات والأدوار', 'description' => 'التحكم في صلاحيات الأدمن والطلاب'],
                 ],
             ],
             [
@@ -83,14 +61,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Basic Security',
-                        'description' => 'Secure access with authentication and encrypted connections',
-                    ],
-                    'ar' => [
-                        'name' => 'الأمان الأساسي',
-                        'description' => 'تأمين الدخول باستخدام التحقق والتشفير',
-                    ],
+                    'en' => ['name' => 'Basic Security', 'description' => 'Secure access with authentication and encrypted connections'],
+                    'ar' => ['name' => 'الأمان الأساسي', 'description' => 'تأمين الدخول باستخدام التحقق والتشفير'],
                 ],
             ],
             [
@@ -99,14 +71,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Basic Reports',
-                        'description' => 'View basic statistics about students and courses',
-                    ],
-                    'ar' => [
-                        'name' => 'تقارير أساسية',
-                        'description' => 'عرض إحصائيات أساسية عن الطلاب والكورسات',
-                    ],
+                    'en' => ['name' => 'Basic Reports', 'description' => 'View basic statistics about students and courses'],
+                    'ar' => ['name' => 'تقارير أساسية', 'description' => 'عرض إحصائيات أساسية عن الطلاب والكورسات'],
                 ],
             ],
             [
@@ -115,14 +81,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Platform Settings',
-                        'description' => 'Manage platform settings and branding',
-                    ],
-                    'ar' => [
-                        'name' => 'إعدادات المنصة',
-                        'description' => 'التحكم في إعدادات المنصة والهوية',
-                    ],
+                    'en' => ['name' => 'Platform Settings', 'description' => 'Manage platform settings and branding'],
+                    'ar' => ['name' => 'إعدادات المنصة', 'description' => 'التحكم في إعدادات المنصة والهوية'],
                 ],
             ],
             [
@@ -131,31 +91,18 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => true,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Online Payments',
-                        'description' => 'Accept online payments, manage subscriptions and track transactions',
-                    ],
-                    'ar' => [
-                        'name' => 'المدفوعات الإلكترونية',
-                        'description' => 'قبول المدفوعات الإلكترونية، إدارة الاشتراكات وتتبع العمليات المالية',
-                    ],
+                    'en' => ['name' => 'Online Payments', 'description' => 'Accept online payments, manage subscriptions and track transactions'],
+                    'ar' => ['name' => 'المدفوعات الإلكترونية', 'description' => 'قبول المدفوعات الإلكترونية، إدارة الاشتراكات وتتبع العمليات المالية'],
                 ],
             ],
-            // paid features
             [
                 'icon' => 'fa-layer-group',
                 'price' => 50,
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Categories',
-                        'description' => 'Organize courses into categories and manage them',
-                    ],
-                    'ar' => [
-                        'name' => 'الأقسام',
-                        'description' => 'تنظيم الكورسات فى أقسام وإدارتها',
-                    ],
+                    'en' => ['name' => 'Categories', 'description' => 'Organize courses into categories and manage them'],
+                    'ar' => ['name' => 'الأقسام', 'description' => 'تنظيم الكورسات فى أقسام وإدارتها'],
                 ],
             ],
             [
@@ -164,14 +111,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Assignments',
-                        'description' => 'Create assignments with file attachments and track submissions',
-                    ],
-                    'ar' => [
-                        'name' => 'التكليفات',
-                        'description' => 'إنشاء التكليفات مع ملفات مرفقة وتتبع التسليمات',
-                    ],
+                    'en' => ['name' => 'Assignments', 'description' => 'Create assignments with file attachments and track submissions'],
+                    'ar' => ['name' => 'التكليفات', 'description' => 'إنشاء التكليفات مع ملفات مرفقة وتتبع التسليمات'],
                 ],
             ],
             [
@@ -180,14 +121,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Question Bank',
-                        'description' => 'Build and manage a question bank for exams',
-                    ],
-                    'ar' => [
-                        'name' => 'بنك الأسئلة',
-                        'description' => 'إنشاء وإدارة بنك الأسئلة للاختبارات',
-                    ],
+                    'en' => ['name' => 'Question Bank', 'description' => 'Build and manage a question bank for exams'],
+                    'ar' => ['name' => 'بنك الأسئلة', 'description' => 'إنشاء وإدارة بنك الأسئلة للاختبارات'],
                 ],
             ],
             [
@@ -196,14 +131,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Quizzes & Exams',
-                        'description' => 'Create quizzes and exams and view student grades',
-                    ],
-                    'ar' => [
-                        'name' => 'الاختبارات',
-                        'description' => 'إنشاء الاختبارات والامتحانات ومتابعة درجات الطلاب',
-                    ],
+                    'en' => ['name' => 'Quizzes & Exams', 'description' => 'Create quizzes and exams and view student grades'],
+                    'ar' => ['name' => 'الاختبارات', 'description' => 'إنشاء الاختبارات والامتحانات ومتابعة درجات الطلاب'],
                 ],
             ],
             [
@@ -212,14 +141,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Announcements',
-                        'description' => 'Create and schedule announcements for students',
-                    ],
-                    'ar' => [
-                        'name' => 'الإعلانات',
-                        'description' => 'إنشاء وجدولة الإعلانات للطلاب',
-                    ],
+                    'en' => ['name' => 'Announcements', 'description' => 'Create and schedule announcements for students'],
+                    'ar' => ['name' => 'الإعلانات', 'description' => 'إنشاء وجدولة الإعلانات للطلاب'],
                 ],
             ],
             [
@@ -228,14 +151,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Live Sessions',
-                        'description' => 'Schedule and host live sessions and webinars',
-                    ],
-                    'ar' => [
-                        'name' => 'الجلسات المباشرة',
-                        'description' => 'جدولة واستضافة الجلسات المباشرة والندوات',
-                    ],
+                    'en' => ['name' => 'Live Sessions', 'description' => 'Schedule and host live sessions and webinars'],
+                    'ar' => ['name' => 'الجلسات المباشرة', 'description' => 'جدولة واستضافة الجلسات المباشرة والندوات'],
                 ],
             ],
             [
@@ -244,14 +161,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Certificates',
-                        'description' => 'Generate certificates for courses or categories',
-                    ],
-                    'ar' => [
-                        'name' => 'الشهادات',
-                        'description' => 'توليد الشهادات للكورسات أو الأقسام',
-                    ],
+                    'en' => ['name' => 'Certificates', 'description' => 'Generate certificates for courses or categories'],
+                    'ar' => ['name' => 'الشهادات', 'description' => 'توليد الشهادات للكورسات أو الأقسام'],
                 ],
             ],
             [
@@ -260,14 +171,8 @@ class FeatureSeeder extends Seeder
                 'active' => true,
                 'default' => false,
                 'translations' => [
-                    'en' => [
-                        'name' => 'Calendar',
-                        'description' => 'View academic calendar and important deadlines',
-                    ],
-                    'ar' => [
-                        'name' => 'التقويم',
-                        'description' => 'عرض التقويم الأكاديمي والمواعيد الهامة',
-                    ],
+                    'en' => ['name' => 'Calendar', 'description' => 'View academic calendar and important deadlines'],
+                    'ar' => ['name' => 'التقويم', 'description' => 'عرض التقويم الأكاديمي والمواعيد الهامة'],
                 ],
             ],
         ];
@@ -283,10 +188,11 @@ class FeatureSeeder extends Seeder
             }
             $feature->save();
 
-            // إنشاء Permissions مرتبطة بالـ Feature لكل من حراس sanctum و admins
-            foreach (['sanctum', 'admins'] as $guard) {
+            $permissionName = $registry->featurePermission($feature->id);
+
+            foreach ($registry->guards() as $guard) {
                 Permission::firstOrCreate([
-                    'name' => 'feature-' . $feature->id,
+                    'name' => $permissionName,
                     'guard_name' => $guard,
                 ]);
             }

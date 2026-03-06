@@ -2,12 +2,18 @@
 
 namespace App\Modules\V1\Platforms\Infrastructure\Persistence\Repositories;
 
-use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
+use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
 use App\Modules\V1\Platforms\Domain\Models\Platform;
+use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class EloquentPlatformRepository implements PlatformRepositoryInterface
 {
+    public function __construct(
+        private readonly PermissionRegistryInterface $permissionRegistry,
+    ) {
+    }
+
     public function create(array $attributes): Platform
     {
         return Platform::create($attributes);
@@ -29,7 +35,10 @@ class EloquentPlatformRepository implements PlatformRepositoryInterface
 
     public function giveFeaturePermissions(Platform $platform, Collection $features): void
     {
-        $permissions = $features->map(fn ($feature) => 'feature-' . $feature['id'])->toArray();
+        $permissions = $features
+            ->map(fn ($feature) => $this->permissionRegistry->featurePermission($feature['id']))
+            ->toArray();
+
         $platform->givePermissionTo($permissions);
     }
 

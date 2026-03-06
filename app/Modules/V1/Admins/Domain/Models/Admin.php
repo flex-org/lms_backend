@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\V1\Admins\Domain\Models;
 
-use App\Traits\V1\BelongsToDomain;
+use App\Traits\V1\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
-    use HasFactory, HasRoles, HasApiTokens, BelongsToDomain;
+    use HasFactory, HasRoles, HasApiTokens, BelongsToTenant;
 
     protected $guard_name = 'admins';
     /**
@@ -22,7 +22,7 @@ class Admin extends Authenticatable
         'email',
         'phone',
         'password',
-        'domain',
+        'platform_id',
     ];
 
     /**

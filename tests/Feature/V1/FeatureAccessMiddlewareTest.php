@@ -3,6 +3,9 @@
 namespace Tests\Feature\V1;
 
 use App\Modules\V1\Admins\Domain\Models\Admin;
+use App\Modules\V1\Platforms\Domain\Models\Platform;
+use App\Modules\V1\Platforms\Domain\Enums\PLatformStatus;
+use App\Modules\V1\Themes\Domain\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -17,12 +20,23 @@ class FeatureAccessMiddlewareTest extends TestCase
 
         $builderFeatureId = DB::table('features')->orderBy('id')->value('id');
 
+        $theme = Theme::first();
+        $platform = Platform::create([
+            'theme_id' => $theme->id,
+            'domain' => 'builder-domain',
+            'storage' => 100,
+            'capacity' => 200,
+            'has_mobile_app' => false,
+            'cost' => 0,
+            'status' => PLatformStatus::FREE_TRIAL,
+        ]);
+
         $admin = Admin::create([
             'name' => 'Builder Admin',
             'email' => 'builder-admin@example.com',
             'phone' => '01000000003',
             'password' => 'password123',
-            'domain' => 'builder-domain',
+            'platform_id' => $platform->id,
         ]);
         $admin->assignRole('owner');
         $admin->givePermissionTo('feature-' . $builderFeatureId);
@@ -40,12 +54,23 @@ class FeatureAccessMiddlewareTest extends TestCase
     {
         $this->seed(\Database\Seeders\DatabaseSeeder::class);
 
+        $theme = Theme::first();
+        $platform = Platform::create([
+            'theme_id' => $theme->id,
+            'domain' => 'no-feature-domain',
+            'storage' => 100,
+            'capacity' => 200,
+            'has_mobile_app' => false,
+            'cost' => 0,
+            'status' => PLatformStatus::FREE_TRIAL,
+        ]);
+
         $admin = Admin::create([
             'name' => 'No Feature Admin',
             'email' => 'no-feature-admin@example.com',
             'phone' => '01000000004',
             'password' => 'password123',
-            'domain' => 'no-feature-domain',
+            'platform_id' => $platform->id,
         ]);
         $admin->assignRole('owner');
 
@@ -58,4 +83,3 @@ class FeatureAccessMiddlewareTest extends TestCase
         $this->assertContains($response->status(), [401, 403]);
     }
 }
-

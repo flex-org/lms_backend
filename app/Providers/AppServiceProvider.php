@@ -43,6 +43,14 @@ class AppServiceProvider extends ServiceProvider
             ->group(base_path('routes/V1/dashboard.php'));
 
         Route::middleware(['api', 'domainExists', 'locale'])
+            ->prefix('api/v1/portal')
+            ->group(base_path('routes/V1/portal.php'));
+
+        Route::middleware(['api', 'domainExists', 'locale'])
+            ->prefix('api/v1/builder')
+            ->group(base_path('routes/V1/builder.php'));
+
+        Route::middleware(['api', 'domainExists', 'locale'])
             ->prefix('api/v1/test')
             ->group(base_path('routes/V1/feature-test.php'));
     }

@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section_values', function (Blueprint $table) {
+        Schema::create('values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('platform_section_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('section_structure_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('structure_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
 
-        Schema::create('section_value_translations', function (Blueprint $table) {
+        Schema::create('value_translations', function (Blueprint $table) {
             $table->id();
             $table->string('locale')->index();
-            $table->foreignId('section_value_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('value_id')->constrained()->cascadeOnDelete();
             $table->json('value')->nullable();
-            $table->unique(['section_value_id', 'locale']);
+            $table->unique(['value_id', 'locale']);
         });
     }
 

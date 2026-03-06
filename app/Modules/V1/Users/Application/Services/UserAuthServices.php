@@ -4,6 +4,7 @@ namespace App\Modules\V1\Users\Application\Services;
 
 use App\Facades\ApiResponse;
 use App\Models\V1\User;
+use App\Modules\Shared\Domain\Contracts\TenantContextInterface;
 use App\Modules\V1\Utilities\Support\Services\AuthWithVerifiedRegisterServices;
 use App\Modules\V1\Utilities\Support\Services\OtpService;
 use Illuminate\Http\Response;
@@ -12,30 +13,36 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAuthServices extends AuthWithVerifiedRegisterServices
 {
+    public function __construct(
+        private readonly TenantContextInterface $tenantContext,
+    ) {
+    }
+
     public function login($credentials)
     {
-        if (!$user = $this->checkUser($credentials)) {
+        if (! $user = $this->checkUser($credentials)) {
             return ApiResponse::message(
                 'Your credentials doesn\'t match our records',
                 Response::HTTP_UNAUTHORIZED
             );
         }
 
+        $domain = $this->tenantContext->getDomain();
+
         if (is_null($user->email_verified_at)) {
-            $this->abilities = ['not-verified'];
-            $token = $this->generateToken($user, 'user');
+            $this->abilities = ['portal', $domain, 'not-verified'];
+            $token = $this->generateToken($user, 'portal');
             $data = $this->respondWithToken($user, $token);
-            return ApiResponse::apiFormat([
-                    'data' => $data
-                ],
-                'use the code that sent to your mail to verify your accout',
+
+            return ApiResponse::apiFormat(
+                ['data' => $data],
+                'use the code that sent to your mail to verify your account',
                 Response::HTTP_FORBIDDEN
             );
         }
 
-        $this->abilities = ['verified'];
-        $token = $this->generateToken($user, 'user');
-
+        $this->abilities = ['portal', $domain, 'verified'];
+        $token = $this->generateToken($user, 'portal');
         $data = $this->respondWithToken($user, $token);
 
         return ApiResponse::success($data, __('auth.login_success'));
@@ -43,7 +50,7 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
 
     public function signUp(array $userData, OtpService $otpService)
     {
-        return DB::transaction(function () use($userData, $otpService) {
+        return DB::transaction(function () use ($userData, $otpService) {
             $user = User::create([
                 'name' => $userData['name'],
                 'email' => $userData['email'],
@@ -51,16 +58,14 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
                 'password' => $userData['password'],
             ]);
 
-            // $code = $otpService->generate($user);
-            // $user->notify(new SendOtp($code));
-            $this->abilities = ['not-verified'];
-            $token = $this->generateToken($user, 'User Token');
+            $domain = $this->tenantContext->getDomain();
+            $this->abilities = ['portal', $domain, 'not-verified'];
+            $token = $this->generateToken($user, 'portal');
 
             return ApiResponse::success([
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
             ], __('auth.verification_sent'));
-
         });
     }
 
@@ -68,24 +73,23 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
     {
         if ($user->email_verified_at) {
             return ApiResponse::validationError([
-                'email' => __('auth.already_verified')
+                'email' => __('auth.already_verified'),
             ]);
         }
 
-        if (!$otpService->validate($user->email, $data['otp'])) {
+        if (! $otpService->validate($user->email, $data['otp'])) {
             return ApiResponse::validationError([
-                'otp' => __('auth.invalid_otp')
+                'otp' => __('auth.invalid_otp'),
             ]);
         }
 
         $user->update(['email_verified_at' => now()]);
         $user->tokens()->delete();
-        $this->abilities = ['verified'];
-        $token = $this->generateToken($user, 'User Token');
-        $data = $this->respondWithToken(
-            $user,
-            $token,
-        );
+
+        $domain = $this->tenantContext->getDomain();
+        $this->abilities = ['portal', $domain, 'verified'];
+        $token = $this->generateToken($user, 'portal');
+        $data = $this->respondWithToken($user, $token);
 
         return ApiResponse::success($data, __('auth.verified_success'));
     }
@@ -94,17 +98,17 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
     {
         $user = User::where('email', $data['email'])->firstOrFail();
 
-        // $code = $otpService->generate($user);
-        // $user->notify(new SendOtp($code));
-
         return ApiResponse::message(__('auth.verification_resent'));
     }
 
-    function checkUser($credentials)
+    public function checkUser($credentials)
     {
         $user = User::whereEmail($credentials['email'])->first();
-        if ($user && !Hash::check($credentials['password'], $user->password))
+
+        if ($user && ! Hash::check($credentials['password'], $user->password)) {
             return false;
+        }
+
         return $user;
     }
 }

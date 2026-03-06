@@ -2,18 +2,19 @@
 
 namespace App\Models\V1\Scopes;
 
+use App\Modules\Shared\Domain\Contracts\TenantContextInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
 class DomainScope implements Scope
 {
-    /**
-     * Apply the scope to a given Eloquent query builder.
-     */
     public function apply(Builder $builder, Model $model): void
     {
-        $model->where('domain', config('platform.domain'));
+        $tenantContext = app(TenantContextInterface::class);
+
+        if ($tenantContext->isResolved()) {
+            $builder->where('domain', $tenantContext->getDomain());
+        }
     }
 }
-

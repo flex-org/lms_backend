@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section_structures', function (Blueprint $table) {
+        Schema::create('structures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->string('type'); // text, description, image, composite
@@ -21,13 +21,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('section_structure_translations', function (Blueprint $table) {
+        Schema::create('structure_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_structure_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('structure_id')->constrained()->cascadeOnDelete();
             $table->string('locale')->index();
             $table->text('label')->nullable();
             $table->text('placeholder')->nullable();
-            $table->unique(['section_structure_id', 'locale']);
+            $table->unique(['structure_id', 'locale']);
         });
 
     }
