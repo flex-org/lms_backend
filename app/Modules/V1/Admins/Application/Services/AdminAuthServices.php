@@ -1,8 +1,8 @@
 <?php
-namespace App\Modules\V1\Dashboard\Admins\Application\Services;
+namespace App\Modules\V1\Admins\Application\Services;
 
 use App\Facades\ApiResponse;
-use App\Modules\V1\Dashboard\Admins\Domain\Models\Admin;
+use App\Modules\V1\Admins\Domain\Models\Admin;
 use App\Modules\V1\Utilities\Support\Services\AuthServices;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;

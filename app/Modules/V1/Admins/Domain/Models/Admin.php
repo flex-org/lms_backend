@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\V1\Dashboard\Admins\Domain\Models;
+namespace App\Modules\V1\Admins\Domain\Models;
 
 use App\Traits\V1\BelongsToDomain;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

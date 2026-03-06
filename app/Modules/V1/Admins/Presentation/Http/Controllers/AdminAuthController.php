@@ -1,11 +1,11 @@
 <?php
-namespace App\Modules\V1\Dashboard\Admins\Presentation\Http\Controllers;
+namespace App\Modules\V1\Admins\Presentation\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\Modules\V1\Dashboard\Admins\Application\Services\AdminAuthServices;
-use App\Modules\V1\Utilities\Support\Contracts\Auth\AuthenticatableInterface;
+use App\Modules\V1\Admins\Application\Services\AdminAuthServices;
 use App\Modules\V1\Utilities\Presentation\Http\Requests\LoginRequest;
+use App\Modules\V1\Utilities\Support\Contracts\Auth\AuthenticatableInterface;
 use Illuminate\Http\Request;
 
 class AdminAuthController extends Controller implements AuthenticatableInterface
