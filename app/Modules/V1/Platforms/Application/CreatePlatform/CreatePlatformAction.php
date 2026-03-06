@@ -57,6 +57,8 @@ class CreatePlatformAction
                 'password' => $data->password,
             ]);
 
+            $admin->givePermissionTo($features->map(fn ($feature) => 'feature-' . $feature['id'])->toArray());
+
             return [
                 'platform_url' => $platform->domain . '.' . config('app.frontend_url'),
                 'token' => $admin->createToken('owner')->plainTextToken,

