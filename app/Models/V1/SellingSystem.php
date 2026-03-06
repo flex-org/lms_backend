@@ -2,7 +2,7 @@
 
 namespace App\Models\V1;
 
-use App\Modules\V1\Utilities\enums\SellingSystemEnum;
+use App\Modules\V1\Utilities\Support\Enums\SellingSystemEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class SellingSystem extends Model
