@@ -11,25 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section_structures', function (Blueprint $table) {
+        Schema::create('structures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-            $table->string('type'); // text, description, image, composite
-            $table->string('name');
+            $table->foreignId('parent_id')->nullable()->constrained('structures')->nullOnDelete();
+            $table->string('key');
+            $table->string('type');
             $table->boolean('is_array')->default(false);
-            $table->unique(['section_id', 'name']);
+            $table->unsignedInteger('position')->default(0);
+            $table->json('settings')->nullable();
             $table->timestamps();
+
+            $table->unique(['section_id', 'key']);
+            $table->index(['section_id', 'parent_id', 'position']);
         });
 
-        Schema::create('section_structure_translations', function (Blueprint $table) {
+        Schema::create('structure_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_structure_id')->constrained()->cascadeOnDelete();
-            $table->string('locale')->index();
-            $table->text('label')->nullable();
-            $table->text('placeholder')->nullable();
-            $table->unique(['section_structure_id', 'locale']);
+            $table->foreignId('structure_id')->constrained('structures')->cascadeOnDelete();
+            $table->string('locale', 10);
+            $table->string('label');
+            $table->string('placeholder')->nullable();
+            $table->unique(['structure_id', 'locale']);
+            $table->index('locale');
         });
-
     }
 
     /**
@@ -37,6 +42,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('section_structures');
+        Schema::dropIfExists('structure_translations');
+        Schema::dropIfExists('structures');
     }
 };
