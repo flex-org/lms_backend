@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('section_value_translations');
-        Schema::dropIfExists('section_values');
+        Schema::dropIfExists('value_translations');
+        Schema::dropIfExists('values');
     }
 };

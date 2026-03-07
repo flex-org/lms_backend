@@ -21,37 +21,41 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Route groups that do NOT require tenant (domain) resolution.
      */
+    private array $publicRoutes = [
+        ['prefix' => '',      'file' => 'api.php'],
+        ['prefix' => 'enums', 'file' => 'enums.php'],
+    ];
+
+    /**
+     * Route groups that REQUIRE tenant (domain) resolution.
+     * domainExists middleware is applied automatically.
+     */
+    private array $tenantRoutes = [
+        ['prefix' => 'dashboard', 'file' => 'dashboard.php'],
+        ['prefix' => 'portal',    'file' => 'portal.php'],
+        ['prefix' => 'builder',   'file' => 'builder.php'],
+        ['prefix' => 'test',      'file' => 'feature-test.php'],
+    ];
+
     public function boot(): void
     {
+        $this->registerRoutes();
+    }
 
-        Route::middleware(['api', 'locale'])
-            ->prefix('api/v1')
-            ->group(base_path('routes/V1/api.php'));
+    private function registerRoutes(): void
+    {
+        foreach ($this->publicRoutes as $route) {
+            Route::middleware(['api', 'locale'])
+                ->prefix('api/v1' . ($route['prefix'] ? '/' . $route['prefix'] : ''))
+                ->group(base_path('routes/V1/' . $route['file']));
+        }
 
-        Route::middleware(['api', 'locale'])
-            ->prefix('api/v1/enums')
-            ->group(base_path('routes/V1/enums.php'));
-
-        Route::middleware(['api', 'domainExists', 'locale'])
-            ->prefix('api/v1/platform')
-            ->group(base_path('routes/V1/platform.php'));
-
-        Route::middleware(['api', 'domainExists', 'locale'])
-            ->prefix('api/v1/dashboard')
-            ->group(base_path('routes/V1/dashboard.php'));
-
-        Route::middleware(['api', 'domainExists', 'locale'])
-            ->prefix('api/v1/portal')
-            ->group(base_path('routes/V1/portal.php'));
-
-        Route::middleware(['api', 'domainExists', 'locale'])
-            ->prefix('api/v1/builder')
-            ->group(base_path('routes/V1/builder.php'));
-
-        Route::middleware(['api', 'domainExists', 'locale'])
-            ->prefix('api/v1/test')
-            ->group(base_path('routes/V1/feature-test.php'));
+        foreach ($this->tenantRoutes as $route) {
+            Route::middleware(['api', 'domainExists', 'locale'])
+                ->prefix('api/v1/' . $route['prefix'])
+                ->group(base_path('routes/V1/' . $route['file']));
+        }
     }
 }

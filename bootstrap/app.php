@@ -60,7 +60,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (NotFoundHttpException|ModelNotFoundException $e, $request) {
-            return ApiResponse::notFound();
+            return ApiResponse::notFound($e->getMessage());
         });
 
         $exceptions->render(function (\DomainException $e, $request) {

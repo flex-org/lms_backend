@@ -14,7 +14,7 @@ class AdminAuthController extends Controller implements AuthenticatableInterface
 
     public function login(LoginRequest $loginRequest)
     {
-        return $this->authServices->login($loginRequest->only(['email','password']));
+        return $this->authServices->login($loginRequest->validated());
     }
 
     public function logout(Request $request)

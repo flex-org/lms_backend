@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AdminAuthController::class, 'login']);
 
-Route::group(['middleware' => ['locale', 'auth:admins', 'domainAccess']], function () {
+Route::middleware(['auth:admins', 'domainAccess'])->group(function () {
     Route::delete('logout', [AdminAuthController::class, 'logout']);
 
     // Admin management
