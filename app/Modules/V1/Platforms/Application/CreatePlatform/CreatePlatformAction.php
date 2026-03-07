@@ -3,6 +3,7 @@
 namespace App\Modules\V1\Platforms\Application\CreatePlatform;
 
 use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
+use App\Modules\V1\Editor\Application\UseCases\InitializePlatformBuilderUseCase;
 use App\Modules\V1\Platforms\Domain\Repositories\AdminRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Repositories\FeatureRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
@@ -20,6 +21,7 @@ class CreatePlatformAction
         private readonly ThemeRepositoryInterface $themeRepository,
         private readonly AdminRepositoryInterface $adminRepository,
         private readonly PermissionRegistryInterface $permissionRegistry,
+        private readonly InitializePlatformBuilderUseCase $initializePlatformBuilder,
     ) {
     }
 
@@ -65,6 +67,8 @@ class CreatePlatformAction
                 ->toArray();
 
             $admin->givePermissionTo($featurePermissions);
+
+            $this->initializePlatformBuilder->execute($platform);
 
             return [
                 'platform_url' => $platform->domain . '.' . config('app.frontend_url'),

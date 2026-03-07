@@ -12,9 +12,11 @@ class Values extends Model
 
     protected $table = 'values';
 
-    protected $fillable = ['platform_section_id', 'section_structure_id'];
+    protected $fillable = ['platform_section_id', 'structure_id'];
 
     public $translatedAttributes = ['value'];
+
+    public $translationForeignKey = 'value_id';
 
     public function platformSection(): BelongsTo
     {
