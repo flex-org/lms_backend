@@ -14,15 +14,21 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->constrained()->cascadeOnDelete();
+            $table->string('key');
+            $table->unsignedInteger('position')->default(0);
             $table->timestamps();
+
+            $table->unique(['page_id', 'key']);
+            $table->index(['page_id', 'position']);
         });
 
         Schema::create('section_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-            $table->string('locale')->index();
-            $table->string('name');
+            $table->string('locale', 10);
+            $table->string('title');
             $table->unique(['section_id', 'locale']);
+            $table->index('locale');
         });
     }
 

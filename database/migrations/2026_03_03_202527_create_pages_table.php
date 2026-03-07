@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->string('key')->unique();
+            $table->unsignedInteger('position')->default(0);
             $table->timestamps();
         });
 
         Schema::create('page_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->constrained()->cascadeOnDelete();
-            $table->string('locale')->index();
-            $table->string('name');
+            $table->string('locale', 10);
+            $table->string('title');
             $table->unique(['page_id', 'locale']);
+            $table->index('locale');
         });
     }
 

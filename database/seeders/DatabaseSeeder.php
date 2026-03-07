@@ -25,6 +25,11 @@ class DatabaseSeeder extends Seeder
         $this->call(FeatureSeeder::class);
         $this->call(ThemeSeeder::class);
         $this->call(RoleSeeder::class);
+        $this->call(WebsitePageSeeder::class);
+        $this->call(WebsiteSectionSeeder::class);
+        $this->call(WebsiteStructureSeeder::class);
+        $this->call(WebsitePlatformSeeder::class);
+        $this->call(WebsiteInitialContentSeeder::class);
 
     }
 }
