@@ -14,8 +14,7 @@ class UpdatePlatformSectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'active' => 'sometimes|boolean',
-            'position' => 'sometimes|integer|min:0',
+            'active' => 'required|boolean',
         ];
     }
 }

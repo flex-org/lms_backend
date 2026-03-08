@@ -11,11 +11,12 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $owner = Role::firstOrCreate(['name' => 'owner', 'guard_name' => 'admins']);
-        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'admins']);
+        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'admins']);
 
-        $capabilities = config('features.admin_capabilities', []);
+        $allCapabilities = config('features.admin_capabilities', []);
+        $ownerOnly = config('features.owner_only_capabilities', []);
 
-        foreach ($capabilities as $capability) {
+        foreach ($allCapabilities as $capability) {
             $perm = Permission::firstOrCreate([
                 'name' => 'admin:' . $capability,
                 'guard_name' => 'admins',
@@ -24,6 +25,15 @@ class RoleSeeder extends Seeder
             if (! $owner->hasPermissionTo($perm)) {
                 $owner->givePermissionTo($perm);
             }
+
+            if (! in_array($capability, $ownerOnly) && ! $admin->hasPermissionTo($perm)) {
+                $admin->givePermissionTo($perm);
+            }
         }
+
+        Permission::firstOrCreate([
+            'name' => 'feature-builder',
+            'guard_name' => 'admins',
+        ]);
     }
 }

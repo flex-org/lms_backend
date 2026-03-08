@@ -11,4 +11,8 @@ class ValuesTranslation extends Model
     protected $table = 'value_translations';
 
     protected $fillable = ['value'];
+
+    protected $casts = [
+        'value' => 'json',
+    ];
 }

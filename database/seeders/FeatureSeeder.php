@@ -96,6 +96,22 @@ class FeatureSeeder extends Seeder
                 ],
             ],
             [
+                'icon' => 'fa-pen-ruler',
+                'price' => 50,
+                'active' => true,
+                'default' => true,
+                'translations' => [
+                    'en' => [
+                        'name' => 'Website Editor',
+                        'description' => 'Edit website pages, update content sections, manage images and customize layouts easily',
+                    ],
+                    'ar' => [
+                        'name' => 'محرر الموقع',
+                        'description' => 'تعديل صفحات الموقع، تحديث أقسام المحتوى، إدارة الصور وتخصيص التخطيطات بسهولة',
+                    ],
+                ],
+            ],
+            [
                 'icon' => 'fa-layer-group',
                 'price' => 50,
                 'active' => true,
@@ -180,7 +196,10 @@ class FeatureSeeder extends Seeder
         foreach ($features as $data) {
             $translations = Arr::pull($data, 'translations');
 
-            $feature = Feature::create($data);
+            $feature = Feature::updateOrCreate(
+                ['icon' => $data['icon']],
+                collect($data)->except('icon')->toArray()
+            );
 
             foreach ($translations as $locale => $translation) {
                 $feature->translateOrNew($locale)->name = $translation['name'];

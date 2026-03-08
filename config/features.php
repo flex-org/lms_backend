@@ -28,7 +28,7 @@ return [
         'live-sessions' => 'feature-14',
         'certificates' => 'feature-15',
         'calendar' => 'feature-16',
-        'builder' => 'feature-builder',
+        'builder' => 'feature-17',
     ],
 
     /*
@@ -36,15 +36,31 @@ return [
     | Admin Capabilities
     |--------------------------------------------------------------------------
     |
-    | Standard admin capability names. These are available for fine-grained
-    | admin permission checks beyond the owner/admin role distinction.
+    | All capabilities given to the owner role. Capabilities NOT listed in
+    | owner_only_capabilities are also given to the admin role.
     |
     */
     'admin_capabilities' => [
         'manage-admins',
+        'manage-roles',
         'manage-platform-settings',
         'manage-courses',
         'manage-students',
         'view-reports',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Owner-Only Capabilities
+    |--------------------------------------------------------------------------
+    |
+    | Capabilities restricted to the owner role. The admin role will NOT
+    | receive these. Must be a subset of admin_capabilities.
+    |
+    */
+    'owner_only_capabilities' => [
+        'manage-admins',
+        'manage-roles',
+        'manage-platform-settings',
     ],
 ];

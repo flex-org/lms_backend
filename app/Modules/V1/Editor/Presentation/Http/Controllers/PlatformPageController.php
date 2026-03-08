@@ -5,25 +5,21 @@ namespace App\Modules\V1\Editor\Presentation\Http\Controllers;
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Modules\Shared\Domain\Contracts\TenantContextInterface;
-use App\Modules\V1\Editor\Application\DTOs\CreatePlatformPageData;
-use App\Modules\V1\Editor\Application\UseCases\CreatePlatformPageUseCase;
-use App\Modules\V1\Editor\Application\UseCases\DeletePlatformPageUseCase;
 use App\Modules\V1\Editor\Application\UseCases\ListPlatformPagesUseCase;
 use App\Modules\V1\Editor\Application\UseCases\UpdatePlatformPageUseCase;
 use App\Modules\V1\Editor\Domain\Models\PlatformPage;
-use App\Modules\V1\Editor\Presentation\Http\Requests\StorePlatformPageRequest;
+use App\Modules\V1\Editor\Domain\Repositories\PlatformPageRepositoryInterface;
 use App\Modules\V1\Editor\Presentation\Http\Requests\UpdatePlatformPageRequest;
+use App\Modules\V1\Editor\Presentation\Http\Resources\PlatformPageResource;
 
 class PlatformPageController extends Controller
 {
     public function __construct(
         private readonly ListPlatformPagesUseCase $listPages,
-        private readonly CreatePlatformPageUseCase $createPage,
         private readonly UpdatePlatformPageUseCase $updatePage,
-        private readonly DeletePlatformPageUseCase $deletePage,
+        private readonly PlatformPageRepositoryInterface $pageRepository,
         private readonly TenantContextInterface $tenantContext,
-    ) {
-    }
+    ) {}
 
     public function index()
     {
@@ -35,21 +31,16 @@ class PlatformPageController extends Controller
 
         $pages = $this->listPages->execute($platform->id);
 
-        return ApiResponse::success($pages);
+        return ApiResponse::success(PlatformPageResource::collection($pages));
     }
 
-    public function store(StorePlatformPageRequest $request)
+    public function show(PlatformPage $platformPage)
     {
-        $platform = $this->tenantContext->getPlatform();
+        $this->ensureBelongsToPlatform($platformPage);
 
-        if (! $platform) {
-            abort(404, 'Platform not found.');
-        }
+        $platformPage = $this->pageRepository->findOrFail($platformPage->id);
 
-        $data = CreatePlatformPageData::fromArray($request->validated(), $platform->id);
-        $page = $this->createPage->execute($data);
-
-        return ApiResponse::created(['page' => $page]);
+        return ApiResponse::success(new PlatformPageResource($platformPage));
     }
 
     public function update(UpdatePlatformPageRequest $request, PlatformPage $platformPage)
@@ -58,16 +49,7 @@ class PlatformPageController extends Controller
 
         $updated = $this->updatePage->execute($platformPage, $request->validated());
 
-        return ApiResponse::updated(['page' => $updated]);
-    }
-
-    public function destroy(PlatformPage $platformPage)
-    {
-        $this->ensureBelongsToPlatform($platformPage);
-
-        $this->deletePage->execute($platformPage);
-
-        return ApiResponse::deleted();
+        return ApiResponse::updated(['page' => new PlatformPageResource($updated)]);
     }
 
     private function ensureBelongsToPlatform(PlatformPage $platformPage): void

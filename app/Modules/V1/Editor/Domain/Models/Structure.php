@@ -10,7 +10,13 @@ class Structure extends Model
 {
     use Translatable;
 
-    protected $fillable = ['section_id', 'type', 'name', 'is_array'];
+    protected $fillable = [
+        'section_id',
+        'type',
+        'name',
+        'is_array',
+        'max'
+    ];
 
     public $translatedAttributes = ['label', 'placeholder'];
 

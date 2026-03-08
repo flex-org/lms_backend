@@ -4,61 +4,68 @@ namespace App\Modules\V1\Editor\Presentation\Http\Controllers;
 
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Modules\V1\Editor\Application\DTOs\CreatePlatformSectionData;
-use App\Modules\V1\Editor\Application\UseCases\CreatePlatformSectionUseCase;
-use App\Modules\V1\Editor\Application\UseCases\DeletePlatformSectionUseCase;
+use App\Modules\Shared\Domain\Contracts\TenantContextInterface;
 use App\Modules\V1\Editor\Application\UseCases\ListPlatformSectionsUseCase;
 use App\Modules\V1\Editor\Application\UseCases\ReorderSectionsUseCase;
 use App\Modules\V1\Editor\Application\UseCases\UpdatePlatformSectionUseCase;
+use App\Modules\V1\Editor\Application\UseCases\UpdateSectionValuesUseCase;
+use App\Modules\V1\Editor\Domain\Models\PlatformPage;
 use App\Modules\V1\Editor\Domain\Models\PlatformSection;
 use App\Modules\V1\Editor\Presentation\Http\Requests\ReorderSectionsRequest;
-use App\Modules\V1\Editor\Presentation\Http\Requests\StorePlatformSectionRequest;
 use App\Modules\V1\Editor\Presentation\Http\Requests\UpdatePlatformSectionRequest;
+use App\Modules\V1\Editor\Presentation\Http\Requests\UpdateSectionValuesRequest;
+use App\Modules\V1\Editor\Presentation\Http\Resources\PlatformSectionResource;
 
 class PlatformSectionController extends Controller
 {
     public function __construct(
         private readonly ListPlatformSectionsUseCase $listSections,
-        private readonly CreatePlatformSectionUseCase $createSection,
         private readonly UpdatePlatformSectionUseCase $updateSection,
-        private readonly DeletePlatformSectionUseCase $deleteSection,
         private readonly ReorderSectionsUseCase $reorderSections,
-    ) {
-    }
+        private readonly UpdateSectionValuesUseCase $updateValues,
+        private readonly TenantContextInterface $tenantContext,
+    ) {}
 
-    public function index(int $platformPageId)
+    public function index(string $pageKey)
     {
-        $sections = $this->listSections->execute($platformPageId);
+        $platformPage = $this->resolvePlatformPage($pageKey);
 
-        return ApiResponse::success($sections);
-    }
+        $sections = $this->listSections->execute($platformPage->id);
 
-    public function store(StorePlatformSectionRequest $request)
-    {
-        $data = CreatePlatformSectionData::fromArray($request->validated());
-        $section = $this->createSection->execute($data);
-
-        return ApiResponse::created(['section' => $section]);
+        return ApiResponse::success(PlatformSectionResource::collection($sections));
     }
 
     public function update(UpdatePlatformSectionRequest $request, PlatformSection $platformSection)
     {
         $updated = $this->updateSection->execute($platformSection, $request->validated());
 
-        return ApiResponse::updated(['section' => $updated]);
+        return ApiResponse::updated(['section' => new PlatformSectionResource($updated)]);
     }
 
-    public function destroy(PlatformSection $platformSection)
+    public function reorder(ReorderSectionsRequest $request, string $pageKey)
     {
-        $this->deleteSection->execute($platformSection);
+        $platformPage = $this->resolvePlatformPage($pageKey);
 
-        return ApiResponse::deleted();
-    }
-
-    public function reorder(ReorderSectionsRequest $request, int $platformPageId)
-    {
-        $this->reorderSections->execute($platformPageId, $request->validated('ordered_ids'));
+        $this->reorderSections->execute($platformPage->id, $request->validated('ordered_ids'));
 
         return ApiResponse::updated();
+    }
+
+    public function updateValues(UpdateSectionValuesRequest $request, PlatformSection $platformSection)
+    {
+        $updated = $this->updateValues->execute(
+            $platformSection,
+            $request->validated('locale'),
+            $request->validated('values'),
+        );
+
+        return ApiResponse::updated(['section' => new PlatformSectionResource($updated)]);
+    }
+
+    private function resolvePlatformPage(string $pageKey): PlatformPage
+    {
+        return PlatformPage::whereHas('page', fn ($q) => $q->where('key', $pageKey))
+            ->where('platform_id', $this->tenantContext->getPlatformId())
+            ->firstOrFail();
     }
 }

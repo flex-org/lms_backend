@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type'); // text, description, image, composite
             $table->string('name');
             $table->boolean('is_array')->default(false);
+            $table->boolean('max')->default(0);
             $table->unique(['section_id', 'name']);
             $table->timestamps();
         });

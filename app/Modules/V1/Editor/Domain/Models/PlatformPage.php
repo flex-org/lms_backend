@@ -3,12 +3,14 @@
 namespace App\Modules\V1\Editor\Domain\Models;
 
 use App\Modules\V1\Platforms\Domain\Models\Platform;
+use App\Traits\V1\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PlatformPage extends Model
 {
+    use BelongsToTenant;
     protected $fillable = ['platform_id', 'page_id', 'active'];
 
     protected $casts = [

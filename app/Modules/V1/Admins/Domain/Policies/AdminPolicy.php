@@ -11,23 +11,23 @@ class AdminPolicy
 
     public function viewAny(Admin $authAdmin): bool
     {
-        return $authAdmin->hasRole('owner');
+        return $authAdmin->hasPermissionTo('admin:manage-admins', 'admins');
     }
 
     public function create(Admin $authAdmin): bool
     {
-        return $authAdmin->hasRole('owner');
+        return $authAdmin->hasPermissionTo('admin:manage-admins', 'admins');
     }
 
     public function update(Admin $authAdmin, Admin $targetAdmin): bool
     {
-        return $authAdmin->hasRole('owner')
+        return $authAdmin->hasPermissionTo('admin:manage-admins', 'admins')
             && $authAdmin->platform_id === $targetAdmin->platform_id;
     }
 
     public function delete(Admin $authAdmin, Admin $targetAdmin): bool
     {
-        return $authAdmin->hasRole('owner')
+        return $authAdmin->hasPermissionTo('admin:manage-admins', 'admins')
             && $authAdmin->platform_id === $targetAdmin->platform_id
             && $authAdmin->id !== $targetAdmin->id;
     }

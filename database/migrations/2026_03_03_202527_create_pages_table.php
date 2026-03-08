@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->string('key')->unique()->after('id');
             $table->timestamps();
         });
 

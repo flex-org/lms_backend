@@ -11,13 +11,18 @@ class EloquentPlatformPageRepository implements PlatformPageRepositoryInterface
     public function listByPlatform(int $platformId): Collection
     {
         return PlatformPage::where('platform_id', $platformId)
-            ->with(['page', 'platformSections.section'])
+            ->with('page')
+            ->withCount('platformSections')
             ->get();
     }
 
     public function findOrFail(int $id): PlatformPage
     {
-        return PlatformPage::with(['page', 'platformSections.section'])->findOrFail($id);
+        return PlatformPage::with([
+            'page',
+            'platformSections.section.structures.translations',
+            'platformSections.sectionValues.translations',
+        ])->findOrFail($id);
     }
 
     public function create(array $attributes): PlatformPage

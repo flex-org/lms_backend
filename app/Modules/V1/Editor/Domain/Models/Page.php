@@ -10,7 +10,7 @@ class Page extends Model
 {
     use Translatable;
 
-    protected $fillable = [];
+    protected $fillable = ['key'];
 
     public $translatedAttributes = ['name'];
 

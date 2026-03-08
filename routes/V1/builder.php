@@ -6,13 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:admins', 'domainAccess', 'featureAccess:builder'])->group(function () {
     Route::get('pages', [PlatformPageController::class, 'index']);
-    Route::post('pages', [PlatformPageController::class, 'store']);
-    Route::put('pages/{platformPage}', [PlatformPageController::class, 'update']);
-    Route::delete('pages/{platformPage}', [PlatformPageController::class, 'destroy']);
+    Route::get('pages/{platformPage}', [PlatformPageController::class, 'show']);
+//    Route::patch('pages/{platformPage}', [PlatformPageController::class, 'update']);
 
-    Route::get('pages/{platformPageId}/sections', [PlatformSectionController::class, 'index']);
-    Route::post('sections', [PlatformSectionController::class, 'store']);
-    Route::put('sections/{platformSection}', [PlatformSectionController::class, 'update']);
-    Route::delete('sections/{platformSection}', [PlatformSectionController::class, 'destroy']);
-    Route::post('pages/{platformPageId}/sections/reorder', [PlatformSectionController::class, 'reorder']);
+    Route::get('pages/{pageKey}/sections', [PlatformSectionController::class, 'index']);
+    Route::put('sections/{platformSection}/values', [PlatformSectionController::class, 'updateValues']);
+    Route::patch('sections/{platformSection}', [PlatformSectionController::class, 'update']);
+    Route::post('pages/{pageKey}/sections/reorder', [PlatformSectionController::class, 'reorder']);
 });

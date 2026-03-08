@@ -12,7 +12,9 @@ class PageSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->pages() as $pageData) {
-            $page = Page::create();
+            $page = Page::updateOrCreate(
+                ['key' => $pageData['key']],
+            );
             foreach ($pageData['translations'] as $locale => $t) {
                 $page->translateOrNew($locale)->name = $t['name'];
             }
@@ -55,6 +57,7 @@ class PageSeeder extends Seeder
     private function homePage(): array
     {
         return [
+            'key' => 'home',
             'translations' => [
                 'en' => ['name' => 'Home'],
                 'ar' => ['name' => 'الرئيسية'],
@@ -163,6 +166,7 @@ class PageSeeder extends Seeder
     private function categoriesPage(): array
     {
         return [
+            'key' => 'categories',
             'translations' => [
                 'en' => ['name' => 'Categories'],
                 'ar' => ['name' => 'الأقسام'],
@@ -195,6 +199,7 @@ class PageSeeder extends Seeder
     private function coursesPage(): array
     {
         return [
+            'key' => 'courses',
             'translations' => [
                 'en' => ['name' => 'Courses'],
                 'ar' => ['name' => 'الكورسات'],
@@ -227,6 +232,7 @@ class PageSeeder extends Seeder
     private function subscriptionPage(): array
     {
         return [
+            'key' => 'subscription',
             'translations' => [
                 'en' => ['name' => 'Subscription'],
                 'ar' => ['name' => 'الاشتراك'],
