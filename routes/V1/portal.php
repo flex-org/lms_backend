@@ -1,7 +1,10 @@
 <?php
 
+use App\Modules\V1\Platforms\Presentation\Http\Controllers\PlatformController;
 use App\Modules\V1\Users\Presentation\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('platform/features', [PlatformController::class, 'features']);
 
 Route::post('login', [UserAuthController::class, 'login']);
 Route::post('signup', [UserAuthController::class, 'signUp']);
