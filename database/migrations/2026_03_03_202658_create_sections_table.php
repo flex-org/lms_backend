@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->constrained()->cascadeOnDelete();
+            $table->string('key');
             $table->timestamps();
         });
 

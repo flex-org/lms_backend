@@ -3,6 +3,7 @@
 namespace App\Modules\V1\Utilities\Support\Services;
 
 use App\Facades\ApiResponse;
+use App\Modules\V1\Users\Presentation\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 Abstract class AuthServices
@@ -23,7 +24,7 @@ Abstract class AuthServices
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'user' => $user
+            'user' => new UserResource($user)
         ];
     }
 

@@ -9,20 +9,14 @@ class PermissionRegistry implements PermissionRegistryInterface
     private const FEATURE_PREFIX = 'feature-';
     private const ADMIN_PREFIX = 'admin:';
 
-    public function featurePermission(int|string $featureId): string
+    public function featurePermission(int|string $featureKey): string
     {
-        return self::FEATURE_PREFIX . $featureId;
+        return self::FEATURE_PREFIX . $featureKey;
     }
 
     public function resolveFeaturePermission(string $featureKey): string
     {
-        if (is_numeric($featureKey)) {
-            return $this->featurePermission($featureKey);
-        }
-
-        $mapped = config('features.permissions.' . $featureKey);
-
-        return is_string($mapped) && $mapped !== '' ? $mapped : $featureKey;
+        return $this->featurePermission($featureKey);
     }
 
     public function adminCapability(string $capability): string

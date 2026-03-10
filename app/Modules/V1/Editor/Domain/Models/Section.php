@@ -11,7 +11,7 @@ class Section extends Model
 {
     use Translatable;
 
-    protected $fillable = ['page_id'];
+    protected $fillable = ['page_id', 'section'];
 
     public $translatedAttributes = ['name'];
 

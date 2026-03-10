@@ -33,6 +33,7 @@ class PlatformSectionResource extends JsonResource
             'id' => $this->id,
             'section_id' => $this->section_id,
             'name' => $section?->translate()?->name,
+            'key' => $section?->key,
             'active' => $this->active,
             'position' => $this->position,
             'structures' => $structures,

@@ -63,7 +63,7 @@ class CreatePlatformAction
             ]);
 
             $featurePermissions = $features
-                ->map(fn ($feature) => $this->permissionRegistry->featurePermission($feature['id']))
+                ->map(fn ($feature) => $this->permissionRegistry->featurePermission($feature['key']))
                 ->toArray();
 
             $admin->givePermissionTo($featurePermissions);

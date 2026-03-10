@@ -20,10 +20,10 @@ class TenantFeatureAccessService
         }
 
         $permission = $this->permissionRegistry->resolveFeaturePermission($feature);
-        $guard = $this->resolveGuard($user);
+//        $guard = $this->resolveGuard($user);
 
         try {
-            return $user->hasPermissionTo($permission, $guard);
+            return $user->platform->hasPermissionTo($permission);
         } catch (PermissionDoesNotExist) {
             return false;
         }

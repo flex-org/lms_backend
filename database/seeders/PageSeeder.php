@@ -21,7 +21,10 @@ class PageSeeder extends Seeder
             $page->save();
 
             foreach ($pageData['sections'] as $sectionData) {
-                $section = Section::create(['page_id' => $page->id]);
+                $section = Section::create([
+                    'page_id' => $page->id,
+                    'key' => $sectionData['key'],
+                ]);
                 foreach ($sectionData['translations'] as $locale => $t) {
                     $section->translateOrNew($locale)->name = $t['name'];
                 }
@@ -64,6 +67,7 @@ class PageSeeder extends Seeder
             ],
             'sections' => [
                 [
+                    'key' => 'hero',
                     'translations' => [
                         'en' => ['name' => 'Hero'],
                         'ar' => ['name' => 'البطل'],
@@ -92,6 +96,7 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 [
+                    'key' => 'why_us',
                     'translations' => [
                         'en' => ['name' => 'Why Us'],
                         'ar' => ['name' => 'لماذا نحن'],
@@ -108,6 +113,7 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 [
+                    'key' => 'cta_banner',
                     'translations' => [
                         'en' => ['name' => 'CTA Banner'],
                         'ar' => ['name' => 'بانر الدعوة'],
@@ -128,6 +134,7 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 [
+                    'key' => 'testimonials',
                     'translations' => [
                         'en' => ['name' => 'Testimonials'],
                         'ar' => ['name' => 'آراء الطلاب'],
@@ -144,6 +151,7 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 [
+                    'key' => 'faq',
                     'translations' => [
                         'en' => ['name' => 'FAQ'],
                         'ar' => ['name' => 'الأسئلة الشائعة'],
@@ -173,6 +181,7 @@ class PageSeeder extends Seeder
             ],
             'sections' => [
                 [
+                    'key' => 'header',
                     'translations' => [
                         'en' => ['name' => 'Page Header'],
                         'ar' => ['name' => 'ترويسة الصفحة'],
@@ -206,6 +215,7 @@ class PageSeeder extends Seeder
             ],
             'sections' => [
                 [
+                    'key' => 'header',
                     'translations' => [
                         'en' => ['name' => 'Page Header'],
                         'ar' => ['name' => 'ترويسة الصفحة'],
@@ -239,6 +249,7 @@ class PageSeeder extends Seeder
             ],
             'sections' => [
                 [
+                    'key' => 'header',
                     'translations' => [
                         'en' => ['name' => 'Page Header'],
                         'ar' => ['name' => 'ترويسة الصفحة'],
@@ -255,6 +266,7 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 [
+                    'key' => 'plan_card',
                     'translations' => [
                         'en' => ['name' => 'Plan Card'],
                         'ar' => ['name' => 'بطاقة الخطة'],
@@ -283,6 +295,7 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 [
+                    'key' => 'faq',
                     'translations' => [
                         'en' => ['name' => 'FAQ'],
                         'ar' => ['name' => 'الأسئلة الشائعة'],
