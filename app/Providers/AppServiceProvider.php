@@ -34,8 +34,9 @@ class AppServiceProvider extends ServiceProvider
      */
     private array $tenantRoutes = [
         ['prefix' => 'dashboard', 'file' => 'dashboard.php'],
-        ['prefix' => 'auth',    'file' => 'portal.php'],
+        ['prefix' => 'auth',      'file' => 'portal.php'],
         ['prefix' => 'builder',   'file' => 'builder.php'],
+        ['prefix' => 'catalog',   'file' => 'catalog.php'],
         ['prefix' => 'test',      'file' => 'feature-test.php'],
     ];
 

@@ -12,4 +12,8 @@ class EloquentFeatureRepository implements FeatureRepositoryInterface
     {
         return Feature::whereIn('id', $ids)->get();
     }
+    public function getByKeys(array $keys): Collection
+    {
+        return Feature::whereIn('key', $keys)->get();
+    }
 }

@@ -101,6 +101,48 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
         return ApiResponse::message(__('auth.verification_resent'));
     }
 
+    public function forgotPassword(string $email, OtpService $otpService)
+    {
+        $user = User::where('email', $email)->firstOrFail();
+
+        $otpService->generate($user->email);
+
+        return ApiResponse::message(__('auth.verification_sent'));
+    }
+
+    public function verifyResetOtp(array $data, OtpService $otpService)
+    {
+        $user = User::where('email', $data['email'])->firstOrFail();
+
+        if (! $otpService->validate($user->email, $data['otp'])) {
+            return ApiResponse::validationError([
+                'otp' => __('auth.invalid_otp'),
+            ]);
+        }
+
+        $user->tokens()->delete();
+
+        $domain = $this->tenantContext->getDomain();
+        $this->abilities = ['reset-password', $domain];
+        $token = $this->generateToken($user, 'reset-password');
+
+        return ApiResponse::success(['access_token' => $token]);
+    }
+
+    public function resetPassword(string $newPassword, $user)
+    {
+        $user->update(['password' => Hash::make($newPassword)]);
+
+        $user->currentAccessToken()->delete();
+
+        $domain = $this->tenantContext->getDomain();
+        $this->abilities = ['portal', $domain, 'verified'];
+        $token = $this->generateToken($user, 'portal');
+        $data = $this->respondWithToken($user, $token);
+
+        return ApiResponse::success($data, __('auth.password_reset_success'));
+    }
+
     public function checkUser($credentials)
     {
         $user = User::whereEmail($credentials['email'])->first();

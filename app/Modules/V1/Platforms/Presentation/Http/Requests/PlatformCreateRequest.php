@@ -25,7 +25,7 @@ class PlatformCreateRequest extends FormRequest
             'selling_systems' => 'required|array|min:1',
             'selling_systems.*' => 'required|integer|distinct|exists:selling_systems,id',
             'features' => 'required|array|min:1',
-            'features.*' => 'required|integer|distinct|exists:features,id',
+            'features.*' => 'required|string|distinct|exists:features,key',
         ];
     }
 }

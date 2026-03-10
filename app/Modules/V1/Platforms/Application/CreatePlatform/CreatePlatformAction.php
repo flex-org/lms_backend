@@ -30,7 +30,7 @@ class CreatePlatformAction
         $this->guardAgainstDuplicateDomain($data);
 
         return DB::transaction(function () use ($data) {
-            $features = $this->featureRepository->getByIds($data->features);
+            $features = $this->featureRepository->getByKeys($data->features);
             $cost = $this->pricingService->calculate($features, $data->toPricePayload());
             $defaultTheme = $this->themeRepository->getDefaultFreeTheme();
 

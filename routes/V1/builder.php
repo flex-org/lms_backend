@@ -4,7 +4,7 @@ use App\Modules\V1\Editor\Presentation\Http\Controllers\PlatformPageController;
 use App\Modules\V1\Editor\Presentation\Http\Controllers\PlatformSectionController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum,admin', 'domainAccess'])->group(function () {
+Route::middleware(['domainExists'])->group(function () {
     Route::get('pages/{pageKey}/sections', [PlatformSectionController::class, 'index']);
 });
 

@@ -36,7 +36,7 @@ class EloquentPlatformRepository implements PlatformRepositoryInterface
     public function giveFeaturePermissions(Platform $platform, Collection $features): void
     {
         $permissions = $features
-            ->map(fn ($feature) => $this->permissionRegistry->featurePermission($feature['id']))
+            ->map(fn ($feature) => $this->permissionRegistry->featurePermission($feature['key']))
             ->toArray();
 
         $platform->givePermissionTo($permissions);

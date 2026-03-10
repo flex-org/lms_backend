@@ -224,7 +224,7 @@ class FeatureSeeder extends Seeder
             }
             $feature->save();
 
-            $permissionName = $registry->featurePermission($feature->id);
+            $permissionName = $registry->featurePermission($feature->key);
 
             foreach ($registry->guards() as $guard) {
                 Permission::firstOrCreate([

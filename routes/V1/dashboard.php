@@ -3,6 +3,8 @@
 use App\Modules\V1\Admins\Presentation\Http\Controllers\AdminAuthController;
 use App\Modules\V1\Admins\Presentation\Http\Controllers\AdminManagementController;
 use App\Modules\V1\Admins\Presentation\Http\Controllers\RoleManagementController;
+use App\Modules\V1\Catalog\Presentation\Http\Controllers\Admin\CategoryController;
+use App\Modules\V1\Catalog\Presentation\Http\Controllers\Admin\CourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AdminAuthController::class, 'login']);
@@ -23,4 +25,15 @@ Route::middleware(['auth:admins', 'domainAccess'])->group(function () {
     Route::get('roles/{role}', [RoleManagementController::class, 'show']);
     Route::put('roles/{role}', [RoleManagementController::class, 'update']);
     Route::delete('roles/{role}', [RoleManagementController::class, 'destroy']);
+});
+
+// Categories management
+Route::middleware(['auth:admins', 'domainAccess', 'featureAccess:categories'])->group(function () {
+    Route::apiResource('categories', CategoryController::class);
+    Route::get('categories/{category}/courses', [CategoryController::class, 'courses']);
+});
+
+// Courses management
+Route::middleware(['auth:admins', 'domainAccess', 'featureAccess:courses'])->group(function () {
+    Route::apiResource('courses', CourseController::class);
 });
