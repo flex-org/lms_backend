@@ -38,11 +38,30 @@ class PlatformController extends Controller
             ->get()
             ->each(fn ($f) => $f->included = $platformFeatureIds->contains($f->id));
 
-        $sellingSystems = $platform->sellingSystems->pluck('system');
+        $sellingSystems = $platform->sellingSystems
+            ->map(function ($sellingSystem) {
+                $enum = $sellingSystem->system;
+
+                return [
+                    'key'   => $enum->value,
+                    'value' => $enum->label(),
+                ];
+            })
+            ->values();
+
+        $activeTheme = $platform->theme
+            ? [
+                'id'     => $platform->theme->id,
+                'name'   => $platform->theme->name,
+                'color'  => $platform->theme->color,
+                'colors' => $platform->theme->colors,
+            ]
+            : null;
 
         return ApiResponse::success([
             'features'        => PlatformFeatureResource::collection($allFeatures),
             'selling_systems' => $sellingSystems,
+            'theme'           => $activeTheme,
         ]);
     }
 

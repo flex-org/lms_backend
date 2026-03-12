@@ -5,6 +5,10 @@ use App\Modules\V1\Platforms\Presentation\Http\Controllers\PlatformController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/features', [FeatureController::class, 'getActiveFeatures']);
+
+Route::get('platform/features', [PlatformController::class, 'features'])
+    ->middleware(['domainExists']);
+
 Route::get('/dynamic-features', [FeatureController::class, 'getDynamicFeatures']);
 
 Route::get('/platforms/search', [PlatformController::class, 'search']);
