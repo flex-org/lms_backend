@@ -32,7 +32,13 @@ class PlatformSectionController extends Controller
 
         $sections = $this->listSections->execute($platformPage->id);
 
-        return ApiResponse::success(PlatformSectionResource::collection($sections));
+        $keyed = $sections->mapWithKeys(function ($section) {
+            $key = $section->section?->key ?? $section->id;
+
+            return [$key => new PlatformSectionResource($section)];
+        });
+
+        return ApiResponse::success((object) $keyed->toArray());
     }
 
     public function update(UpdatePlatformSectionRequest $request, PlatformSection $platformSection)
@@ -49,6 +55,21 @@ class PlatformSectionController extends Controller
         $this->reorderSections->execute($platformPage->id, $request->validated('ordered_ids'));
 
         return ApiResponse::updated();
+    }
+
+    public function structuresByKey(string $pageKey, string $sectionKey)
+    {
+        $platformPage = $this->resolvePlatformPage($pageKey);
+
+        $platformSection = PlatformSection::where('platform_page_id', $platformPage->id)
+            ->whereHas('section', fn ($q) => $q->where('key', $sectionKey))
+            ->with(['section.structures.translations', 'sectionValues.translations'])
+            ->firstOrFail();
+
+        $resource = new PlatformSectionResource($platformSection);
+        $structuresMap = $resource->buildStructuresMap($platformSection->section);
+
+        return ApiResponse::success($structuresMap);
     }
 
     public function updateValues(UpdateSectionValuesRequest $request, PlatformSection $platformSection)

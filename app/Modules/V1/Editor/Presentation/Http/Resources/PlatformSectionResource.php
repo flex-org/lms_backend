@@ -15,18 +15,7 @@ class PlatformSectionResource extends JsonResource
                 return null;
             }
 
-            $valuesMap = [];
-            if ($this->relationLoaded('sectionValues')) {
-                foreach ($this->sectionValues as $value) {
-                    $valuesMap[$value->structure_id] = $value;
-                }
-            }
-
-            return $section->structures->map(function ($structure) use ($valuesMap) {
-                $value = $valuesMap[$structure->id] ?? null;
-
-                return new StructureWithValueResource($structure, $value);
-            });
+            return $this->buildStructuresMap($section);
         });
 
         return [
@@ -38,5 +27,23 @@ class PlatformSectionResource extends JsonResource
             'position' => $this->position,
             'structures' => $structures,
         ];
+    }
+
+    public function buildStructuresMap($section): \stdClass
+    {
+        $valuesMap = [];
+        if ($this->relationLoaded('sectionValues')) {
+            foreach ($this->sectionValues as $value) {
+                $valuesMap[$value->structure_id] = $value;
+            }
+        }
+
+        $keyed = $section->structures->mapWithKeys(function ($structure) use ($valuesMap) {
+            $value = $valuesMap[$structure->id] ?? null;
+
+            return [$structure->name => new StructureWithValueResource($structure, $value)];
+        });
+
+        return (object) $keyed->toArray();
     }
 }

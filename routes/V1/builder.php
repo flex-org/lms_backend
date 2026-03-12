@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['domainExists'])->group(function () {
     Route::get('pages/{pageKey}/sections', [PlatformSectionController::class, 'index']);
+    Route::get('pages/{pageKey}/sections/{sectionKey}/structures', [PlatformSectionController::class, 'structuresByKey']);
 });
 
 Route::middleware(['auth:admins', 'domainAccess'])->group(function () {

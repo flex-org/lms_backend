@@ -177,6 +177,10 @@ Accept-Language: en
 
 Uses the page `key` (not ID). Available keys: `home`, `categories`, `courses`, `subscription`.
 
+Returns an **object keyed by section key**. Each section contains its structures as an **object keyed by structure name**.
+
+> This endpoint uses only `domainExists` middleware (no auth required). Suitable for the public website to render pages.
+
 ### Example
 
 ```
@@ -189,28 +193,118 @@ Accept-Language: en
 ```json
 {
   "success": true,
-  "data": [
-    {
+  "data": {
+    "hero": {
       "id": 1,
       "section_id": 1,
       "name": "Hero",
+      "key": "hero",
       "active": true,
-      "position": 0,
-      "structures": null
+      "position": 1,
+      "structures": {
+        "title": {
+          "id": 1,
+          "name": "title",
+          "type": "text",
+          "is_array": false,
+          "label": "Title",
+          "placeholder": "title",
+          "value_id": 1,
+          "value": "Mr. Mohamed Ahmed"
+        },
+        "subtitle": {
+          "id": 2,
+          "name": "subtitle",
+          "type": "text",
+          "is_array": false,
+          "label": "Subtitle",
+          "placeholder": "Learn everything, become anything",
+          "value_id": 2,
+          "value": "Learn everything, become anything"
+        },
+        "stats": {
+          "id": 5,
+          "name": "stats",
+          "type": "composite",
+          "is_array": true,
+          "label": "Statistics",
+          "placeholder": null,
+          "value_id": 5,
+          "value": [
+            { "value": "40+", "label": "Students" },
+            { "value": "120+", "label": "Courses" }
+          ],
+          "max": 0,
+          "fields": ["value", "label"]
+        }
+      }
     },
-    {
+    "why_us": {
       "id": 2,
       "section_id": 2,
       "name": "Why Us",
+      "key": "why_us",
       "active": true,
-      "position": 1,
-      "structures": null
+      "position": 2,
+      "structures": {
+        "title": { "..." : "..." },
+        "items": { "..." : "..." }
+      }
     }
-  ]
+  }
 }
 ```
 
-> Note: `structures` is `null` here because this is a list endpoint. Use `GET pages/{id}` to get full nested data.
+> **Frontend usage:** Access values directly: `data.hero.structures.title.value`, `data.hero.structures.stats.value[0].label`, etc.
+
+---
+
+## 3b. Get Structures for a Single Section
+
+**`GET /api/v1/builder/sections/{platformSectionId}/structures`**
+
+Returns only the **structures object** (keyed by structure name) for a single section. Same middleware as the sections list (`domainExists`, no auth).
+
+### Example
+
+```
+GET /api/v1/builder/sections/1/structures
+Accept-Language: en
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "title": {
+      "id": 1,
+      "name": "title",
+      "type": "text",
+      "is_array": false,
+      "label": "Title",
+      "placeholder": "title",
+      "value_id": 1,
+      "value": "Mr. Mohamed Ahmed"
+    },
+    "stats": {
+      "id": 5,
+      "name": "stats",
+      "type": "composite",
+      "is_array": true,
+      "label": "Statistics",
+      "placeholder": null,
+      "value_id": 5,
+      "value": [
+        { "value": "40+", "label": "Students" }
+      ],
+      "max": 0,
+      "fields": ["value", "label"]
+    }
+  }
+}
+```
 
 ---
 
@@ -623,13 +717,14 @@ Here is every composite structure in the system and its field shape:
 ## Workflow Summary
 
 ```
-1. GET /pages                              → See all pages + section counts
-2. GET /pages/{id}                         → Load full page for editing
+1. GET /pages                                → See all pages + section counts
+2. GET /pages/{id}                           → Load full page for editing
      or
-   GET /pages/{pageKey}/sections           → Load just the section list
-3. PUT /sections/{id}/values               → Save content edits (one language at a time)
-4. PATCH /sections/{id}                    → Toggle active/inactive only (no position)
-5. POST /pages/{pageKey}/sections/reorder  → Drag & drop reorder (send ALL IDs in new order)
+   GET /pages/{pageKey}/sections             → Load sections as keyed object (public)
+3. GET /sections/{id}/structures             → Load structures for one section (public)
+4. PUT /sections/{id}/values                 → Save content edits (one language at a time)
+5. PATCH /sections/{id}                      → Toggle active/inactive only (no position)
+6. POST /pages/{pageKey}/sections/reorder    → Drag & drop reorder (send ALL IDs in new order)
 ```
 
 > **Activation** and **Reorder** are completely separate:
