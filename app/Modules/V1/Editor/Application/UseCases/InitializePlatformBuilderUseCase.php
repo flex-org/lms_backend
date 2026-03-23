@@ -67,10 +67,10 @@ final class InitializePlatformBuilderUseCase
                 'en' => 'Mr. Mohamed Ahmed',
                 'ar' => 'أ. محمد أحمد',
             ],
-            'home.Hero.subtitle' => [
-                'en' => 'Learn everything, become anything',
-                'ar' => 'تعلم كل شيء، كن أي شيء',
-            ],
+//            'home.Hero.subtitle' => [
+//                'en' => 'Learn everything, become anything',
+//                'ar' => 'تعلم كل شيء، كن أي شيء',
+//            ],
             'home.Hero.bio' => [
                 'en' => 'Hi I\'m Mr Mohamed Ahmed. I\'m a teacher, a leader, and a creator. I believe in the power of education to transform lives.',
                 'ar' => 'مرحباً أنا الأستاذ محمد أحمد. أنا معلم وقائد ومبدع. أؤمن بقوة التعليم في تغيير الحياة.',
@@ -90,6 +90,19 @@ final class InitializePlatformBuilderUseCase
                     ['value' => '120+', 'label' => 'كورس'],
                     ['value' => '300+', 'label' => 'درس'],
                 ],
+            ],
+            // ---- HOME > Hero ----
+            'home.About Us.title' => [
+                'en' => 'Mr. Mohamed Ahmed',
+                'ar' => 'أ. محمد أحمد',
+            ],
+            'home.About Us.bio' => [
+                'en' => 'Hi I\'m Mr Mohamed Ahmed. I\'m a teacher, a leader, and a creator. I believe in the power of education to transform lives.',
+                'ar' => 'مرحباً أنا الأستاذ محمد أحمد. أنا معلم وقائد ومبدع. أؤمن بقوة التعليم في تغيير الحياة.',
+            ],
+            'home.About Us.image' => [
+                'en' => null,
+                'ar' => null,
             ],
 
             // ---- HOME > Why Us ----

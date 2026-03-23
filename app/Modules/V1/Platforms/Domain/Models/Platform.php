@@ -4,6 +4,8 @@ namespace App\Modules\V1\Platforms\Domain\Models;
 
 use App\Models\V1\SellingSystem;
 use App\Models\V1\User;
+use App\Modules\V1\Billing\Domain\Models\Invoice;
+use App\Modules\V1\Billing\Domain\Models\PlatformPendingChange;
 use App\Modules\V1\Features\Domain\Models\Feature;
 use App\Modules\V1\Platforms\Domain\Enums\PLatformStatus;
 use App\Modules\V1\Themes\Domain\Models\Theme;
@@ -11,6 +13,7 @@ use App\Modules\V1\Utilities\Support\Enums\SellingSystemEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 
 class Platform extends Model
@@ -65,6 +68,16 @@ class Platform extends Model
             'platform_id',
             'selling_system_id'
         );
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function pendingChanges(): HasMany
+    {
+        return $this->hasMany(PlatformPendingChange::class);
     }
 
     public static function boot()

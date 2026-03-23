@@ -7,5 +7,6 @@ return [
         App\Modules\V1\Admins\Infrastructure\Providers\AdminsModuleServiceProvider::class,
         App\Modules\V1\Editor\Infrastructure\Providers\EditorModuleServiceProvider::class,
         App\Modules\V1\Catalog\Infrastructure\Providers\CatalogModuleServiceProvider::class,
+        App\Modules\V1\Billing\Infrastructure\Providers\BillingModuleServiceProvider::class,
     ],
 ];

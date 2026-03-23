@@ -77,10 +77,6 @@ class PageSeeder extends Seeder
                             'en' => ['label' => 'Title', 'placeholder' => 'title'],
                             'ar' => ['label' => 'العنوان', 'placeholder' => 'العنوان'],
                         ]],
-                        ['type' => 'text', 'name' => 'subtitle', 'translations' => [
-                            'en' => ['label' => 'Subtitle', 'placeholder' => 'Learn everything, become anything'],
-                            'ar' => ['label' => 'العنوان الفرعي', 'placeholder' => 'تعلم كل شيء، كن أي شيء'],
-                        ]],
                         ['type' => 'description', 'name' => 'bio', 'translations' => [
                             'en' => ['label' => 'Bio', 'placeholder' => 'Hi I\'m Mr Mohamed Ahmed...'],
                             'ar' => ['label' => 'نبذة', 'placeholder' => 'مرحبا أنا الأستاذ محمد أحمد...'],
@@ -92,6 +88,27 @@ class PageSeeder extends Seeder
                         ['type' => 'composite', 'name' => 'stats', 'is_array' => true, 'translations' => [
                             'en' => ['label' => 'Statistics', 'placeholder' => '{"value":"40+","label":"Students"}'],
                             'ar' => ['label' => 'الإحصائيات', 'placeholder' => '{"value":"40+","label":"طلاب"}'],
+                        ]],
+                    ],
+                ],
+                [
+                    'key' => 'about',
+                    'translations' => [
+                        'en' => ['name' => 'About Us'],
+                        'ar' => ['name' => 'معلومات عنا'],
+                    ],
+                    'structures' => [
+                        ['type' => 'text', 'name' => 'title', 'translations' => [
+                            'en' => ['label' => 'Title', 'placeholder' => 'title'],
+                            'ar' => ['label' => 'العنوان', 'placeholder' => 'العنوان'],
+                        ]],
+                        ['type' => 'description', 'name' => 'bio', 'translations' => [
+                            'en' => ['label' => 'Bio', 'placeholder' => 'Hi I\'m Mr Mohamed Ahmed...'],
+                            'ar' => ['label' => 'نبذة', 'placeholder' => 'مرحبا أنا الأستاذ محمد أحمد...'],
+                        ]],
+                        ['type' => 'image', 'name' => 'image', 'translations' => [
+                            'en' => ['label' => 'Image'],
+                            'ar' => ['label' => 'صور '],
                         ]],
                     ],
                 ],

@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use App\Modules\V1\Billing\Application\Jobs\DailyBillingCheckJob;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Artisan::command('billing:daily-check', function () {
+    dispatch(new DailyBillingCheckJob());
+})->purpose('Run daily billing checks for platforms');
+
+Schedule::job(DailyBillingCheckJob::class)->dailyAt('00:01');
