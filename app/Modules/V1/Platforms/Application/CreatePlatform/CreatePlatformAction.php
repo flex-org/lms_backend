@@ -11,6 +11,7 @@ use App\Modules\V1\Platforms\Domain\Repositories\ThemeRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Services\PlatformPricingService;
 use App\Modules\V1\Platforms\Domain\Enums\PLatformStatus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CreatePlatformAction
 {
@@ -59,7 +60,7 @@ class CreatePlatformAction
                 'name' => $data->name,
                 'email' => $data->email,
                 'phone' => $data->phone,
-                'password' => $data->password,
+                'password' => Hash::make($data->password),
             ]);
 
             $featurePermissions = $features
