@@ -17,7 +17,7 @@ final readonly class CreatePlatformData
         public StorageQuota $storage,
         public Capacity $capacity,
         public bool $mobileApp,
-        public array $sellingSystems = [],
+        public array $sellingSystems,
         public array $features,
     ) {
     }
@@ -33,7 +33,7 @@ final readonly class CreatePlatformData
             storage: new StorageQuota($payload['storage']),
             capacity: new Capacity($payload['capacity']),
             mobileApp: $payload['mobile_app'] ?? false,
-            sellingSystems: $payload['selling_systems'],
+            sellingSystems: $payload['selling_systems'] ?? [],
             features: $payload['features'],
         );
     }
