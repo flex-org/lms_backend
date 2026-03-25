@@ -17,7 +17,7 @@ final readonly class CreatePlatformData
         public StorageQuota $storage,
         public Capacity $capacity,
         public bool $mobileApp,
-        public array $sellingSystems,
+        public array $sellingSystems = [],
         public array $features,
     ) {
     }

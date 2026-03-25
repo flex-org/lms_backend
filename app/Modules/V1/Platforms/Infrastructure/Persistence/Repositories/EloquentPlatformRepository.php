@@ -2,6 +2,7 @@
 
 namespace App\Modules\V1\Platforms\Infrastructure\Persistence\Repositories;
 
+use App\Models\V1\SellingSystem;
 use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
 use App\Modules\V1\Platforms\Domain\Models\Platform;
 use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
@@ -21,6 +22,11 @@ class EloquentPlatformRepository implements PlatformRepositoryInterface
 
     public function attachSellingSystems(Platform $platform, array $sellingSystems): void
     {
+        $sellingSystems = empty($sellingSystems)
+            ? SellingSystem::get()
+                ->pluck('id')
+                ->toArray()
+            : $sellingSystems;
         $platform->sellingSystems()->attach($sellingSystems);
     }
 

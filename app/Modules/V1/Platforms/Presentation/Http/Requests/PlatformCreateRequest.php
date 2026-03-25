@@ -22,10 +22,10 @@ class PlatformCreateRequest extends FormRequest
             'storage' => 'required|integer|min:50',
             'capacity' => 'required|integer|min:100',
             'mobile_app' => 'sometimes|boolean',
-            'selling_systems' => 'required|array|min:1',
-            'selling_systems.*' => 'required|integer|distinct|exists:selling_systems,id',
             'features' => 'required|array|min:1',
             'features.*' => 'required|string|distinct|exists:features,key',
+            'selling_systems' => 'nullable|array|min:1',
+            'selling_systems.*' => 'nullable|integer|distinct|exists:selling_systems,id',
         ];
     }
 }
