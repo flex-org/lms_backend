@@ -26,6 +26,7 @@ class StructureWithValueResource extends JsonResource
             'name' => $this->name,
             'type' => $this->type,
             'is_array' => $this->is_array,
+            'active' => $this->active,
             'label' => $this->translate()?->label,
             'placeholder' => $this->translate()?->placeholder,
             'value_id' => $this->sectionValue?->id,
