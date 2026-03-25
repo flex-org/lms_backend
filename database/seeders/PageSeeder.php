@@ -122,6 +122,13 @@ class PageSeeder extends Seeder
                         ['type' => 'text', 'name' => 'title', 'translations' => [
                             'en' => ['label' => 'Section Title', 'placeholder' => 'Why Learners Trust Us'],
                             'ar' => ['label' => 'عنوان القسم', 'placeholder' => 'لماذا يثق بنا المتعلمون'],
+                        ]],                        ['type' => 'text', 'name' => 'title', 'translations' => [
+                            'en' => ['label' => 'Section Title', 'placeholder' => 'Why Learners Trust Us'],
+                            'ar' => ['label' => 'عنوان القسم', 'placeholder' => 'لماذا يثق بنا المتعلمون'],
+                        ]],
+                        ['type' => 'text', 'name' => 'description', 'translations' => [
+                            'en' => ['label' => 'Section Description', 'placeholder' => 'Why Learners Trust Us'],
+                            'ar' => ['label' => 'عنوان القسم', 'placeholder' => 'لماذا يثق بنا المتعلمون'],
                         ]],
                         ['type' => 'composite', 'name' => 'items', 'is_array' => true, 'translations' => [
                             'en' => ['label' => 'Reasons', 'placeholder' => '{"title":"...","description":"..."}'],

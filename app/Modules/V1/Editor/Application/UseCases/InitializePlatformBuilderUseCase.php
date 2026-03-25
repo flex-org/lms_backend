@@ -110,6 +110,10 @@ final class InitializePlatformBuilderUseCase
                 'en' => 'Why Learners Trust Us',
                 'ar' => 'لماذا يثق بنا المتعلمون',
             ],
+            'home.Why Us.description' => [
+                'en' => 'Why Learners Trust Us',
+                'ar' => 'لماذا يثق بنا المتعلمون',
+            ],
             'home.Why Us.items' => [
                 'en' => [
                     ['title' => 'Expert Instructors', 'description' => 'Learn from experienced and qualified instructors.'],
