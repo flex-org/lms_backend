@@ -25,7 +25,7 @@ class EnsureMobileClientAllowed
         $trimmed = $raw === null ? '' : trim($raw);
 
         if ($trimmed === '') {
-            $channel = self::CHANNEL_WEB;
+            abort(422, 'Invalid X-Client-Type. Allowed values: mobile, web.');
         } else {
             $channel = strtolower($trimmed);
             if (! in_array($channel, [self::CHANNEL_WEB, self::CHANNEL_MOBILE], true)) {
