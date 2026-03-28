@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Modules\V1\Catalog\Presentation\Http\Resources;
+namespace App\Modules\V1\Categories\Presentation\Http\Resources;
 
+use App\Modules\V1\Courses\Presentation\Http\Resources\CourseResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +18,10 @@ class CategoryResource extends JsonResource
             'price' => $this->price,
             'active' => $this->active,
             'courses_count' => $this->whenCounted('courses'),
+            'courses' => $this->whenLoaded(
+                'courses',
+                fn() => CourseResource::collection($this->courses)
+            ),
         ];
     }
 }

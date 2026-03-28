@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\V1\Catalog\Application\UseCases;
+namespace App\Modules\V1\Categories\Application\UseCases;
 
-use App\Modules\V1\Catalog\Domain\Repositories\CategoryRepositoryInterface;
+use App\Modules\V1\Categories\Domain\Repositories\CategoryRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 final readonly class ListCategoriesUseCase
@@ -11,8 +11,8 @@ final readonly class ListCategoriesUseCase
         private CategoryRepositoryInterface $repository,
     ) {}
 
-    public function execute($perPage = 15, $filters = [], bool $active = true)
+    public function execute($filters = [], bool $active = true)
     {
-        return $this->repository->listByPlatform($perPage, $filters, $active);
+        return $this->repository->listByPlatform($filters, $active);
     }
 }

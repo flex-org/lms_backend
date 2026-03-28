@@ -3,8 +3,8 @@
 use App\Modules\V1\Admins\Presentation\Http\Controllers\AdminAuthController;
 use App\Modules\V1\Admins\Presentation\Http\Controllers\AdminManagementController;
 use App\Modules\V1\Admins\Presentation\Http\Controllers\RoleManagementController;
-use App\Modules\V1\Catalog\Presentation\Http\Controllers\Admin\CategoryController;
-use App\Modules\V1\Catalog\Presentation\Http\Controllers\Admin\CourseController;
+use App\Modules\V1\categories\Presentation\Http\Controllers\Admin\CategoryController;
+use App\Modules\V1\Courses\Presentation\Http\Controllers\Admin\CourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AdminAuthController::class, 'login']);

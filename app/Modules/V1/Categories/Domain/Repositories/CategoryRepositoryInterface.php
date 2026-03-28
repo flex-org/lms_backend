@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Modules\V1\Catalog\Domain\Repositories;
+namespace App\Modules\V1\Categories\Domain\Repositories;
 
-use App\Modules\V1\Catalog\Domain\Models\Category;
+use App\Modules\V1\Categories\Domain\Models\Category;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CategoryRepositoryInterface
 {
-    public function listByPlatform(int $perPage,array $filters, bool $active);
+    public function listByPlatform(array $filters, bool $active);
 
-    public function findOrFail(int $id): Category;
+    public function findOrFail(int $id, bool $active, array $relations, array $relationsCount): Category;
 
     public function create(array $attributes): Category;
 
     public function update(Category $category, array $attributes): Category;
 
     public function delete(Category $category): void;
+
 }

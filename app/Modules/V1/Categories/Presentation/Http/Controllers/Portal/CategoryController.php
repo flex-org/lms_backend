@@ -1,56 +1,65 @@
 <?php
 
-namespace App\Modules\V1\Catalog\Presentation\Http\Controllers\Portal;
+namespace App\Modules\V1\Categories\Presentation\Http\Controllers\Portal;
 
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Modules\V1\Catalog\Application\UseCases\CreateCategoryUseCase;
-use App\Modules\V1\Catalog\Application\UseCases\DeleteCategoryUseCase;
-use App\Modules\V1\Catalog\Application\UseCases\ListCategoriesUseCase;
-use App\Modules\V1\Catalog\Application\UseCases\UpdateCategoryUseCase;
-use App\Modules\V1\Catalog\Domain\Models\Category;
-use App\Modules\V1\Catalog\Presentation\Http\Resources\CategoryResource;
-use App\Modules\V1\Catalog\Presentation\Http\Resources\CourseResource;
+use App\Modules\V1\Categories\Application\UseCases\ListCategoriesUseCase;
+use App\Modules\V1\Categories\Application\UseCases\ShowCategoryUseCase;
+use App\Modules\V1\Categories\Presentation\Http\Resources\CategoryResource;
+use App\Modules\V1\Courses\Application\UseCases\ListCoursesUseCase;
+use App\Modules\V1\Courses\Presentation\Http\Resources\CourseResource;
+use App\Traits\V1\Filterable;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use Filterable;
+
     public function __construct(
         private readonly ListCategoriesUseCase $listCategories,
+        private readonly ListCoursesUseCase $listCourses,
+        private readonly ShowCategoryUseCase $showCategory,
     ) {}
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->listCategories->execute(false);
+        $filters = $this->acceptedFilters(
+            $request,
+            ['name', 'min_price', 'max_price']
+        );
+        $categories = $this->listCategories->execute($filters, false);
 
         return ApiResponse::success(CategoryResource::collection($categories)
-
+            ->response()
+            ->getData(true)
         );
     }
 
-    public function show(Category $category)
+    public function courses(Request $request, int $id)
     {
-        if (! $category->active) {
-            abort(404);
-        }
+        $category = $this->showCategory->execute(
+            id: $id,
+            active: true,
+            relations: ['media'],
+            relationsCount: ['courses']
+        );
 
-        $category->loadCount('courses')->load('media');
+        $filters = $this->acceptedFilters(
+            $request,
+            ['title', 'min_price', 'max_price']
+        );
 
-        return ApiResponse::success(new CategoryResource($category));
-    }
+        collect($filters)->merge(['categories_id' => $id]);
 
-    public function courses(Category $category)
-    {
-        if (! $category->active) {
-            abort(404);
-        }
+        $courses = $this->listCourses->execute(true);
 
-        $courses = $category->courses()
-            ->where('active', true)
-            ->with('media')
-            ->paginate();
-
-        return ApiResponse::success(CourseResource::collection($courses)
-            ->response()
-            ->getData(true)
+        return ApiResponse::success(
+            CourseResource::collection($courses)
+                ->additional([
+                    'category' => new CategoryResource($category)
+                ])
+                ->response()
+                ->getData(true)
         );
     }
 }

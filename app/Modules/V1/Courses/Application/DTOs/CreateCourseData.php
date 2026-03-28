@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Modules\V1\Categories\Application\DTOs;
+namespace App\Modules\V1\Courses\Application\DTOs;
 
 use Illuminate\Http\UploadedFile;
 
-final readonly class CreateCategoryData
+final readonly class CreateCourseData
 {
     public function __construct(
         public array $translations,
+        public ?int $categoryId,
         public ?float $price,
         public bool $active,
         public ?UploadedFile $image,
@@ -17,6 +18,7 @@ final readonly class CreateCategoryData
     {
         return new self(
             translations: $payload['translations'],
+            categoryId: $payload['category_id'] ?? null,
             price: $payload['price'] ?? null,
             active: $payload['active'] ?? true,
             image: $payload['image'] ?? null,
@@ -26,6 +28,7 @@ final readonly class CreateCategoryData
     public function toAttributes(): array
     {
         return [
+            'category_id' => $this->categoryId,
             'price' => $this->price,
             'active' => $this->active,
         ];

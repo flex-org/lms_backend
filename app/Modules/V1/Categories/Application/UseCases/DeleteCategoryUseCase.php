@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\V1\Catalog\Application\UseCases;
+namespace App\Modules\V1\Categories\Application\UseCases;
 
-use App\Modules\V1\Catalog\Domain\Models\Category;
-use App\Modules\V1\Catalog\Domain\Repositories\CategoryRepositoryInterface;
+use App\Modules\V1\Categories\Domain\Models\Category;
+use App\Modules\V1\Categories\Domain\Repositories\CategoryRepositoryInterface;
 
 final readonly class DeleteCategoryUseCase
 {

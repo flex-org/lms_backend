@@ -4,7 +4,7 @@ namespace App\Traits\V1;
 
 use Illuminate\Database\Eloquent\Model;
 
-trait WithFilter
+trait Filterable
 {
     public function acceptedFilters($request, $keys)
     {

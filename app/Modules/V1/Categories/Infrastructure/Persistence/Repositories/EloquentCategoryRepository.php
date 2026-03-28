@@ -1,26 +1,34 @@
 <?php
 
-namespace App\Modules\V1\Catalog\Infrastructure\Persistence\Repositories;
+namespace App\Modules\V1\Categories\Infrastructure\Persistence\Repositories;
 
-use App\Modules\V1\Catalog\Domain\Models\Category;
-use App\Modules\V1\Catalog\Domain\Repositories\CategoryRepositoryInterface;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Modules\V1\Categories\Domain\Models\Category;
+use App\Modules\V1\Categories\Domain\Repositories\CategoryRepositoryInterface;
 
 class EloquentCategoryRepository implements CategoryRepositoryInterface
 {
-    public function listByPlatform(int $perPage, array $filters, bool $active)
+    public function listByPlatform(array $filters, bool $active)
     {
         return Category::withCount('courses')
             ->filter($filters)
             ->when($active,
                 fn ($q) => $q->whereActive(true)
             )
-            ->simplePaginate($perPage);
+            ->paginate(request('per_page', 15));
     }
 
-    public function findOrFail(int $id): Category
+    public function findOrFail(int $id , bool $active, array $relations, array $relationsCount): Category
     {
-        return Category::with('media')->findOrFail($id);
+        return Category::when(
+            $relations,
+            fn($q) => $q->with($relations)
+        )->when(
+            $relationsCount,
+            fn($q) => $q->withCount($relationsCount)
+        )->when(
+            $active,
+            fn ($q) => $q->whereActive(true)
+        )->findOrFail($id);
     }
 
     public function create(array $attributes): Category
