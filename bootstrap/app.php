@@ -4,6 +4,7 @@ use App\Facades\ApiResponse;
 use App\Http\Middleware\V1\CheckDomainAccess;
 use App\Http\Middleware\V1\CheckDomainExistances;
 use App\Http\Middleware\V1\CheckFeatureAccess;
+use App\Http\Middleware\V1\EnsureMobileClientAllowed;
 use App\Http\Middleware\V1\SetLocale;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -35,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'domainExists' => CheckDomainExistances::class,
             'domainAccess' => CheckDomainAccess::class,
             'featureAccess' => CheckFeatureAccess::class,
+            'mobileClient' => EnsureMobileClientAllowed::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

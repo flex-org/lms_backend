@@ -36,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
         ['prefix' => 'dashboard', 'file' => 'dashboard.php'],
         ['prefix' => 'auth',      'file' => 'portal.php'],
         ['prefix' => 'builder',   'file' => 'builder.php'],
-        ['prefix' => 'catalog',   'file' => 'catalog.php'],
+        ['prefix' => 'categories',   'file' => 'category.php'],
+        ['prefix' => 'courses',   'file' => 'course.php'],
         ['prefix' => 'test',      'file' => 'feature-test.php'],
     ];
 
@@ -54,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         foreach ($this->tenantRoutes as $route) {
-            Route::middleware(['api', 'domainExists', 'locale'])
+            Route::middleware(['api', 'domainExists', 'mobileClient', 'locale'])
                 ->prefix('api/v1/' . $route['prefix'])
                 ->group(base_path('routes/V1/' . $route['file']));
         }
