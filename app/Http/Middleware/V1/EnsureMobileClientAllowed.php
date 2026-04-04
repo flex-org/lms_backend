@@ -22,12 +22,11 @@ class EnsureMobileClientAllowed
     public function handle(Request $request, Closure $next): Response
     {
         $raw = $request->header(self::HEADER);
-        $trimmed = $raw === null ? '' : trim($raw);
 
-        if ($trimmed === '') {
+        if ($raw === null || $raw === '') {
             abort(422, 'Invalid X-Client-Type. Allowed values: mobile, web.');
         } else {
-            $channel = strtolower($trimmed);
+            $channel = strtolower(trim($raw));
             if (! in_array($channel, [self::CHANNEL_WEB, self::CHANNEL_MOBILE], true)) {
                 abort(422, 'Invalid X-Client-Type. Allowed values: mobile, web.');
             }
