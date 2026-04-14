@@ -25,6 +25,7 @@ class EnsureMobileClientAllowed
 
         if ($raw === null || $raw === '') {
             abort(422, __('middleware.invalid_client_type'));
+
         } else {
             $channel = strtolower(trim($raw));
             if (! in_array($channel, [self::CHANNEL_WEB, self::CHANNEL_MOBILE], true)) {
