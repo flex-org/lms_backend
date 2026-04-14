@@ -10,12 +10,12 @@ enum SellingSystemEnum: string
 
     public function label(): string
     {
-        return __("enums/static_keys.selling_system.{$this->value}.label");
+        return __("enums.selling_system.{$this->value}.label");
     }
 
     public function description(): string
     {
-        return __("enums/static_keys.selling_system.{$this->value}.description");
+        return __("enums.selling_system.{$this->value}.description");
     }
 
     public static function options(): array

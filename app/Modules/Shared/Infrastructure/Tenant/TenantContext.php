@@ -21,7 +21,6 @@ class TenantContext implements TenantContextInterface
         $this->platform = Platform::withoutGlobalScopes()
             ->where('domain', $domain)
             ->firstOrFail();
-
         config(['platform.domain' => $domain]);
     }
 

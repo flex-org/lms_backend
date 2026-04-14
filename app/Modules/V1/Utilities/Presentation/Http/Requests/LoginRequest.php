@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.exists' => 'the credentials  doesn\'t match our records',
+            'email.exists' => __('auth.credentials_mismatch'),
         ];
     }
 }

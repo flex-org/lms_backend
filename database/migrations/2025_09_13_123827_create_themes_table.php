@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('color');
-            $table->json('colors');
             $table->string('price')->nullable();
+            $table->json('colors');
             $table->timestamps();
         });
     }

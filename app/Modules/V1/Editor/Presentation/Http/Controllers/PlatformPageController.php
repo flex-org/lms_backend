@@ -26,7 +26,7 @@ class PlatformPageController extends Controller
         $platform = $this->tenantContext->getPlatform();
 
         if (! $platform) {
-            abort(404, 'Platform not found.');
+            abort(404, __('platform.not_found'));
         }
 
         $pages = $this->listPages->execute($platform->id);
@@ -57,7 +57,7 @@ class PlatformPageController extends Controller
         $platform = $this->tenantContext->getPlatform();
 
         if (! $platform || $platformPage->platform_id !== $platform->id) {
-            abort(403, 'Page does not belong to this platform.');
+            abort(403, __('platform.page_not_belong'));
         }
     }
 }

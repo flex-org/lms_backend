@@ -11,9 +11,7 @@ final readonly class StorageQuota
     public function __construct(public int $megabytes)
     {
         if ($megabytes < self::MIN_MB) {
-            throw new InvalidArgumentException(
-                "Storage quota must be at least " . self::MIN_MB . " MB."
-            );
+            throw new InvalidArgumentException(__('platform.storage_min', ['min' => self::MIN_MB]));
         }
     }
 

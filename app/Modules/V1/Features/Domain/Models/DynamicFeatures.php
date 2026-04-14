@@ -2,6 +2,7 @@
 
 namespace App\Modules\V1\Features\Domain\Models;
 
+use App\Modules\V1\Features\Domain\Enums\DynamicFeaturesValue;
 use Illuminate\Database\Eloquent\Model;
 
 class DynamicFeatures extends Model
@@ -12,8 +13,13 @@ class DynamicFeatures extends Model
         'price',
     ];
 
-    public function quantityPrice($quantity)
+    protected $casts = [
+        'name' => DynamicFeaturesValue::class,
+    ];
+
+    public function quantityPrice(DynamicFeaturesValue $name, $quantity)
     {
-        return $this->price * max(1, $quantity / $this->quantity);
+        $model = $this->where('name', $name)->first()->price;
+        return $model->price * max(1, $quantity / $model->quantity);
     }
 }

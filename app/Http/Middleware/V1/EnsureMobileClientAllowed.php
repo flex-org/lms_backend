@@ -24,11 +24,11 @@ class EnsureMobileClientAllowed
         $raw = $request->header(self::HEADER);
 
         if ($raw === null || $raw === '') {
-            abort(422, 'Invalid X-Client-Type. Allowed values: mobile, web.');
+            abort(422, __('middleware.invalid_client_type'));
         } else {
             $channel = strtolower(trim($raw));
             if (! in_array($channel, [self::CHANNEL_WEB, self::CHANNEL_MOBILE], true)) {
-                abort(422, 'Invalid X-Client-Type. Allowed values: mobile, web.');
+                abort(422, __('middleware.invalid_client_type'));
             }
         }
 
@@ -39,7 +39,7 @@ class EnsureMobileClientAllowed
             && $this->tenantContext->isResolved()
             && ! (bool) $this->tenantContext->getPlatform()?->has_mobile_app
         ) {
-            abort(403, 'apiMessages.mobile_app_disabled');
+            abort(403, __('apiMessages.mobile_app_disabled'));
         }
 
         return $next($request);

@@ -11,7 +11,7 @@ final readonly class Money
         public string $currency = 'USD',
     ) {
         if ($amount < 0) {
-            throw new InvalidArgumentException('Money amount cannot be negative.');
+            throw new InvalidArgumentException(__('platform.money_negative'));
         }
     }
 
@@ -36,7 +36,7 @@ final readonly class Money
     private function ensureSameCurrency(self $other): void
     {
         if ($this->currency !== $other->currency) {
-            throw new InvalidArgumentException('Cannot operate on different currencies.');
+            throw new InvalidArgumentException(__('platform.different_currencies'));
         }
     }
 }

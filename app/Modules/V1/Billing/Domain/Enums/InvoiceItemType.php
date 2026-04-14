@@ -8,5 +8,10 @@ enum InvoiceItemType: string
     case STORAGE = 'storage';
     case CAPACITY = 'capacity';
     case MOBILE_APP = 'mobile_app';
+
+    public function label(): string
+    {
+        return __("enums.invoice_item_type.{$this->value}");
+    }
 }
 

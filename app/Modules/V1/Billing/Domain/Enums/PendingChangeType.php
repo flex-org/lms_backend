@@ -8,5 +8,10 @@ enum PendingChangeType: string
     case INCREASE_STORAGE = 'increase_storage';
     case INCREASE_CAPACITY = 'increase_capacity';
     case ENABLE_MOBILE = 'enable_mobile';
+
+    public function label(): string
+    {
+        return __("enums.pending_change_type.{$this->value}");
+    }
 }
 

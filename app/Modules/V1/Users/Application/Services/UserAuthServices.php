@@ -22,7 +22,7 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
     {
         if (! $user = $this->checkUser($credentials)) {
             return ApiResponse::message(
-                'Your credentials doesn\'t match our records',
+                __('auth.credentials_mismatch'),
                 Response::HTTP_UNAUTHORIZED
             );
         }
@@ -36,7 +36,7 @@ class UserAuthServices extends AuthWithVerifiedRegisterServices
 
             return ApiResponse::apiFormat(
                 ['data' => $data],
-                'use the code that sent to your mail to verify your account',
+                __('auth.verify_account'),
                 Response::HTTP_FORBIDDEN
             );
         }

@@ -11,7 +11,7 @@ enum PLatformStatus: string
 
     public function label(): string
     {
-        return __("enums/static_keys.subscription_status.{$this->value}");
+        return __("enums.subscription_status.{$this->value}");
     }
 
     public static function options(): array

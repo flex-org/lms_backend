@@ -17,6 +17,7 @@ class FeatureResource extends JsonResource
         return [
             'id' => $this['id'],
             'icon' => $this['icon'],
+            'key' => $this['key'],
             'price' => (int)$this['price'],
             'active' => (bool) $this['active'],
             'default' => (bool) $this['default'],

@@ -18,7 +18,7 @@ class CheckDomainAccess
         $domain = $this->tenantContext->getDomain();
         $user = $request->user();
         if (! $user || ! $domain || ! $user->tokenCan($domain)) {
-            abort(403, 'Unauthorized domain access');
+            abort(403, __('middleware.unauthorized_domain'));
         }
 
         return $next($request);

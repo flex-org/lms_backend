@@ -21,11 +21,11 @@ class CheckFeatureAccess
         $user = $request->user();
 
         if (! $user || ! $this->tenantContext->isResolved()) {
-            abort(403, 'Feature is not enabled for this tenant.');
+            abort(403, __('middleware.feature_not_enabled'));
         }
 
         if (! $this->featureAccessService->hasAccess($user, $feature)) {
-            abort(403, 'Feature is not enabled for this tenant.');
+            abort(403, __('middleware.feature_not_enabled'));
         }
 
         return $next($request);

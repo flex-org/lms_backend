@@ -13,11 +13,11 @@ final readonly class DomainName
         $trimmed = strtolower(trim($value));
 
         if ($trimmed === '' || strlen($trimmed) > 255) {
-            throw new InvalidArgumentException('Domain name must be between 1 and 255 characters.');
+            throw new InvalidArgumentException(__('platform.domain_length'));
         }
 
         if (strlen($trimmed) > 1 && ! preg_match('/^[a-z0-9][a-z0-9-]*[a-z0-9]$/', $trimmed)) {
-            throw new InvalidArgumentException('Domain name contains invalid characters.');
+            throw new InvalidArgumentException(__('platform.domain_invalid_chars'));
         }
 
         $this->value = $trimmed;

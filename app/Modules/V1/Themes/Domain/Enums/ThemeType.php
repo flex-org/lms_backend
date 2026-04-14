@@ -8,7 +8,7 @@ enum ThemeType: string
 
     public function label(): string
     {
-        return __("enums/static_keys.plan_type.{$this->value}");
+        return __("enums.plan_type.{$this->value}");
     }
 
     public static function options(): array

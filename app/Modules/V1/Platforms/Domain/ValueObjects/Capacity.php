@@ -11,9 +11,7 @@ final readonly class Capacity
     public function __construct(public int $students)
     {
         if ($students < self::MIN_STUDENTS) {
-            throw new InvalidArgumentException(
-                "Capacity must be at least " . self::MIN_STUDENTS . " students."
-            );
+            throw new InvalidArgumentException(__('platform.capacity_min', ['min' => self::MIN_STUDENTS]));
         }
     }
 

@@ -19,13 +19,13 @@ class CheckDomainExistances
         $domain = $request->header('domain');
 
         if (! $domain) {
-            throw new NotFoundHttpException('Platform not found.');
+            throw new NotFoundHttpException(__('platform.not_found'));
         }
 
         $this->tenantContext->setDomain($domain);
 
         if (! $this->tenantContext->isResolved()) {
-            throw new NotFoundHttpException('Platform not found.');
+            throw new NotFoundHttpException(__('platform.not_found'));
         }
 
         return $next($request);

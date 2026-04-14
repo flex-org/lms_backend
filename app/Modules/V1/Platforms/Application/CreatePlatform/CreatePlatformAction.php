@@ -36,7 +36,7 @@ class CreatePlatformAction
             $defaultTheme = $this->themeRepository->getDefaultFreeTheme();
 
             if (! $defaultTheme) {
-                throw new \DomainException('Default free theme is missing.');
+                throw new \DomainException(__('platform.default_theme_missing'));
             }
 
             $platform = $this->platformRepository->create([
@@ -81,7 +81,7 @@ class CreatePlatformAction
     private function guardAgainstDuplicateDomain(CreatePlatformData $data): void
     {
         if ($this->platformRepository->domainExists($data->domain->value)) {
-            throw new \DomainException('Domain already exists.');
+            throw new \DomainException(__('platform.domain_already_exists'));
         }
     }
 }

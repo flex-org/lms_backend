@@ -31,12 +31,7 @@ class PlatformController extends Controller
     {
         $platform = $this->tenantContext->getPlatform();
 
-        $platformFeatureIds = $platform->features()->pluck('features.id');
-
-        $allFeatures = Feature::where('active', true)
-            ->with('translations')
-            ->get()
-            ->each(fn ($f) => $f->included = $platformFeatureIds->contains($f->id));
+        $allFeatures = $platform->features()->get();
 
         $sellingSystems = $platform->sellingSystems
             ->map(function ($sellingSystem) {
@@ -75,6 +70,7 @@ class PlatformController extends Controller
 
         $platforms = Platform::where('domain', 'LIKE', "%{$query}%")
             ->select('id', 'domain')
+            ->where('has_mobile_app', true)
             ->limit(20)
             ->get();
 

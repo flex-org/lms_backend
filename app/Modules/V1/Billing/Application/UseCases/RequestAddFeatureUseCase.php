@@ -12,6 +12,7 @@ use App\Modules\V1\Billing\Domain\Models\InvoiceItem;
 use App\Modules\V1\Billing\Domain\Models\PlatformPendingChange;
 use App\Modules\V1\Billing\Domain\Services\ProrationService;
 use App\Modules\V1\Features\Domain\Models\Feature;
+use App\Modules\V1\Features\Domain\Repositories\FeatureRepositoryInterface;
 use App\Modules\V1\Platforms\Domain\Models\Platform;
 use Illuminate\Support\Facades\DB;
 
@@ -19,18 +20,23 @@ final readonly class RequestAddFeatureUseCase
 {
     public function __construct(
         private ProrationService $prorationService,
+        private FeatureRepositoryInterface $featureRepository,
     ) {
     }
 
-    public function execute(Platform $platform, Feature $feature): PlatformPendingChange
+    public function execute(Platform $platform, string $key): PlatformPendingChange
     {
+        $feature = $this->featureRepository->findOrFailByKey($key);
+
         if ($platform->features()->whereKey($feature->id)->exists()) {
-            throw new \DomainException('Feature already attached to platform.');
+            throw new \DomainException(__('billing.feature_already_attached'));
         }
 
         return DB::transaction(function () use ($platform, $feature) {
             $daysRemaining = $this->prorationService->daysRemaining($platform);
-            $amount = $this->prorationService->featureProration((float) $feature->price, $daysRemaining);
+            $amount = $this->prorationService->featureProration(
+                (float) $feature->price, $daysRemaining
+            );
 
             $invoice = Invoice::create([
                 'platform_id' => $platform->id,
@@ -53,14 +59,26 @@ final readonly class RequestAddFeatureUseCase
                 'period_end' => $platform->renew_at,
             ]);
 
-            return PlatformPendingChange::create([
+            $pendingChange = PlatformPendingChange::create([
                 'platform_id' => $platform->id,
                 'invoice_id' => $invoice->id,
                 'change_type' => PendingChangeType::ADD_FEATURE,
                 'payload' => ['feature_id' => $feature->id],
                 'status' => PendingChangeStatus::PENDING,
             ]);
+
+            $this->temporaryActivation($invoice, $pendingChange);
+            return $pendingChange;
         });
+    }
+
+    private function temporaryActivation($invoice, $pendingChange)
+    {
+        $invoice->status = InvoiceStatus::PAID;
+        $invoice->paid_at = now();
+        $invoice->save();
+
+        (new ApplyPendingChangeUseCase)->execute($pendingChange);
     }
 }
 

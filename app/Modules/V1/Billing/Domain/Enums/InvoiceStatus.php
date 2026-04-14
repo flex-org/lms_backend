@@ -8,5 +8,10 @@ enum InvoiceStatus: string
     case PAID = 'paid';
     case OVERDUE = 'overdue';
     case CANCELLED = 'cancelled';
+
+    public function label(): string
+    {
+        return __("enums.invoice_status.{$this->value}");
+    }
 }
 

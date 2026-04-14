@@ -36,8 +36,9 @@ class AppServiceProvider extends ServiceProvider
         ['prefix' => 'dashboard', 'file' => 'dashboard.php'],
         ['prefix' => 'auth',      'file' => 'portal.php'],
         ['prefix' => 'builder',   'file' => 'builder.php'],
-        ['prefix' => 'categories',   'file' => 'category.php'],
+        ['prefix' => 'categories','file' => 'category.php'],
         ['prefix' => 'courses',   'file' => 'course.php'],
+        ['prefix' => 'billing',   'file' => 'billing.php'],
         ['prefix' => 'test',      'file' => 'feature-test.php'],
     ];
 

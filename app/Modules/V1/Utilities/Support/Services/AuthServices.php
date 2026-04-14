@@ -31,7 +31,7 @@ Abstract class AuthServices
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        return ApiResponse::message(__('auth.logedOut'));
+        return ApiResponse::message(__('auth.loggedOut'));
     }
 
 }

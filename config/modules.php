@@ -9,5 +9,7 @@ return [
         App\Modules\V1\Categories\Infrastructure\Providers\CategoryModuleServiceProvider::class,
         App\Modules\V1\Courses\Infrastructure\Providers\CourseModuleServiceProvider::class,
         App\Modules\V1\Billing\Infrastructure\Providers\BillingModuleServiceProvider::class,
+        App\Modules\V1\Features\Infrastructure\Providers\FeatureModuleServiceProvider::class,
+
     ],
 ];

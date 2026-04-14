@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/features', [FeatureController::class, 'getActiveFeatures']);
 
-Route::get('platform/features', [PlatformController::class, 'features'])
+Route::get('platform/system', [PlatformController::class, 'features'])
     ->middleware(['domainExists']);
 
 Route::get('/dynamic-features', [FeatureController::class, 'getDynamicFeatures']);

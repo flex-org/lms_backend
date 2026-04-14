@@ -20,7 +20,7 @@ class AdminAuthServices extends AuthServices
     {
         if (! $user = $this->checkUser($credentials)) {
             return ApiResponse::message(
-                'Your credentials doesn\'t match our records',
+                __('auth.credentials_mismatch'),
                 Response::HTTP_UNAUTHORIZED
             );
         }
