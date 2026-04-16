@@ -17,10 +17,9 @@ class PlatformPricingService
         $featurePrice = $features->sum('price') * ($days / 30);
 
         $dynamicFeatures = $this->dynamicFeatureRepository->getAllActive();
-
         $dynamicFeaturePrice = $dynamicFeatures
-            ->filter(fn ($df) => isset($dynamicPayload[$df->name]))
-            ->sum(fn ($df) => $df->quantityPrice($dynamicPayload[$df->name]));
+            ->filter(fn ($df) => isset($dynamicPayload[$df->name->value]))
+            ->sum(fn ($df) => $df->quantityPrice($df->name, $dynamicPayload[$df->name->value]));
 
         return $featurePrice + $dynamicFeaturePrice;
     }

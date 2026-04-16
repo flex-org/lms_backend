@@ -19,7 +19,7 @@ class DynamicFeatures extends Model
 
     public function quantityPrice(DynamicFeaturesValue $name, $quantity)
     {
-        $model = $this->where('name', $name)->first()->price;
+        $model = $this->where('name', $name)->first();
         return $model->price * max(1, $quantity / $model->quantity);
     }
 }
