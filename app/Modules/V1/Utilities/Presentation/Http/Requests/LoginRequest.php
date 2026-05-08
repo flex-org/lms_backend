@@ -26,11 +26,4 @@ class LoginRequest extends FormRequest
             'password' => 'required|string|min:6',
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'email.exists' => __('auth.credentials_mismatch'),
-        ];
-    }
 }

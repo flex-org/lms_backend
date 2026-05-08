@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\V1\Users\Presentation\Http\Requests;
+namespace App\Modules\V1\Platforms\Presentation\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ForgotPasswordRequest extends FormRequest
+class UpgradeCapacityRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,8 @@ class ForgotPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'capacity' => ['required', 'integer', 'min:100'],
         ];
     }
 }
+

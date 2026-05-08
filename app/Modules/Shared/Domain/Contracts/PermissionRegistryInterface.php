@@ -6,8 +6,6 @@ interface PermissionRegistryInterface
 {
     public function featurePermission(int|string $featureKey): string;
 
-    public function resolveFeaturePermission(string $featureKey): string;
-
     public function adminCapability(string $capability): string;
 
     public function guards(): array;

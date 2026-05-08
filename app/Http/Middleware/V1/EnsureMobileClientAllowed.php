@@ -23,14 +23,14 @@ class EnsureMobileClientAllowed
     {
         $raw = $request->header(self::HEADER);
 
-        if ($raw === null || $raw === '') {
+        if (empty($raw)) {
             abort(422, __('middleware.invalid_client_type'));
 
-        } else {
-            $channel = strtolower(trim($raw));
-            if (! in_array($channel, [self::CHANNEL_WEB, self::CHANNEL_MOBILE], true)) {
-                abort(422, __('middleware.invalid_client_type'));
-            }
+        }
+
+        $channel = strtolower(trim($raw));
+        if (! in_array($channel, [self::CHANNEL_WEB, self::CHANNEL_MOBILE], true)) {
+            abort(422, __('middleware.invalid_client_type'));
         }
 
         $request->attributes->set('client_channel', $channel);

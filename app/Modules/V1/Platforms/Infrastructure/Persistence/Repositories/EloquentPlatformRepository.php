@@ -6,6 +6,7 @@ use App\Models\V1\SellingSystem;
 use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
 use App\Modules\V1\Platforms\Domain\Models\Platform;
 use App\Modules\V1\Platforms\Domain\Repositories\PlatformRepositoryInterface;
+use App\Modules\V1\Themes\Domain\Models\Theme;
 use Illuminate\Support\Collection;
 
 class EloquentPlatformRepository implements PlatformRepositoryInterface
@@ -20,7 +21,7 @@ class EloquentPlatformRepository implements PlatformRepositoryInterface
         return Platform::create($attributes);
     }
 
-    public function attachSellingSystems(Platform $platform, array $sellingSystems): void
+    public function attachSellingSystems(Platform $platform, array $sellingSystems = []): void
     {
         $sellingSystems = empty($sellingSystems)
             ? SellingSystem::get()
@@ -51,5 +52,20 @@ class EloquentPlatformRepository implements PlatformRepositoryInterface
     public function domainExists(string $domain): bool
     {
         return Platform::where('domain', $domain)->exists();
+    }
+
+    public function getPlatformFeatures(Platform $platform)
+    {
+        return $platform->features;
+    }
+
+    public function getPlatformSellingSystems(Platform $platform)
+    {
+        return $platform->sellingSystems;
+    }
+
+    public function getPlatformTheme(Platform $platform)
+    {
+        return $platform->theme;
     }
 }

@@ -21,10 +21,13 @@ class Platform extends Model
     use HasRoles;
 
     protected $guard_name = 'sanctum';
+
     protected $fillable = [
-        'user_id',
         'theme_id',
         'domain',
+        'name',
+        'about',
+        'key_words',
         'storage',
         'capacity',
         'selling_system',
@@ -37,7 +40,8 @@ class Platform extends Model
 
     public $casts = [
         'selling_system' => SellingSystemEnum::class,
-        'status' => PLatformStatus::class
+        'status' => PLatformStatus::class,
+        'key_words' => 'array',
     ];
 
     public function user(): BelongsTo

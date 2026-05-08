@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [UserAuthController::class, 'login']);
 Route::post('signup', [UserAuthController::class, 'signUp']);
-Route::post('resend-otp', [UserAuthController::class, 'resendOtp']);
+Route::post('resend-otp', [UserAuthController::class, 'generateOtpForEmail']);
 Route::post('verify-email', [UserAuthController::class, 'verifyEmail'])
     ->middleware(['auth:sanctum', 'abilities:not-verified']);
 
-Route::post('forgot-password', [UserAuthController::class, 'forgotPassword']);
-Route::post('verify-reset-otp', [UserAuthController::class, 'verifyResetOtp']);
+Route::post('forgot-password', [UserAuthController::class, 'generateOtpForEmail']);
+Route::post('verify-reset-otp', [UserAuthController::class, 'verifyResetPassOtp']);
 Route::post('reset-password', [UserAuthController::class, 'resetPassword'])
     ->middleware(['auth:sanctum', 'abilities:reset-password']);
 

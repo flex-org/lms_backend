@@ -14,7 +14,5 @@ interface TenantContextInterface
 
     public function getPlatformId(): ?int;
 
-    public function getPlatformByDomain(string $domain): ?Platform;
-
     public function isResolved(): bool;
 }

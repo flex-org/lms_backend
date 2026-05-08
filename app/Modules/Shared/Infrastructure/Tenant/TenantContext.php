@@ -34,12 +34,6 @@ class TenantContext implements TenantContextInterface
         return $this->platform?->id;
     }
 
-    public function getPlatformByDomain(string $domain): ?Platform
-    {
-        return Platform::withoutGlobalScopes()
-            ->where('domain', $domain)
-            ->first();
-    }
 
     public function isResolved(): bool
     {

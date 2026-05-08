@@ -3,6 +3,7 @@
 namespace App\Modules\Shared\Support\Services;
 
 use App\Modules\Shared\Domain\Contracts\PermissionRegistryInterface;
+use App\Modules\V1\Platforms\Domain\Models\Platform;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
@@ -13,24 +14,14 @@ class TenantFeatureAccessService
     ) {
     }
 
-    public function hasAccess(Authenticatable $user, string $feature): bool
+    public function hasAccess(Platform $platform, string $feature): bool
     {
-        if (! method_exists($user, 'hasPermissionTo')) {
-            return false;
-        }
-
-        $permission = $this->permissionRegistry->resolveFeaturePermission($feature);
-//        $guard = $this->resolveGuard($user);
-
+        $permission = $this->permissionRegistry->featurePermission($feature);
         try {
-            return $user->platform->hasPermissionTo($permission);
+            return $platform->hasPermissionTo($permission);
         } catch (PermissionDoesNotExist) {
             return false;
         }
     }
 
-    private function resolveGuard(Authenticatable $user): ?string
-    {
-        return property_exists($user, 'guard_name') ? $user->guard_name : null;
-    }
 }

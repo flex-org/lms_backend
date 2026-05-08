@@ -22,7 +22,6 @@ class AdminResource extends JsonResource
             'permissions' => $this->getAllPermissions()
                 ->pluck('name')
                 ->toArray(),
-            'platform_features' => $this->platform->getAllPermissions()->pluck('name')->toArray(),
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Modules\Shared\Support\Services\TenantFeatureAccessService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckFeatureAccess
 {
@@ -18,13 +19,8 @@ class CheckFeatureAccess
 
     public function handle(Request $request, Closure $next, string $feature): Response
     {
-        $user = $request->user();
-
-        if (! $user || ! $this->tenantContext->isResolved()) {
-            abort(403, __('middleware.feature_not_enabled'));
-        }
-
-        if (! $this->featureAccessService->hasAccess($user, $feature)) {
+        $platform = $this->tenantContext->getPlatform();
+        if (! $this->featureAccessService->hasAccess($platform, $feature)) {
             abort(403, __('middleware.feature_not_enabled'));
         }
 

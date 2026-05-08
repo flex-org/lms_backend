@@ -9,9 +9,15 @@ interface PlatformRepositoryInterface
 {
     public function create(array $attributes): Platform;
 
-    public function attachSellingSystems(Platform $platform, array $sellingSystems): void;
+    public function attachSellingSystems(Platform $platform, array $sellingSystems = []): void;
 
     public function attachFeatures(Platform $platform, Collection $features): void;
+
+    public function getPlatformFeatures(Platform $platform);
+
+    public function getPlatformSellingSystems(Platform $platform);
+
+    public function getPlatformTheme(Platform $platform);
 
     public function giveFeaturePermissions(Platform $platform, Collection $features): void;
 

@@ -38,7 +38,8 @@ class AppServiceProvider extends ServiceProvider
         ['prefix' => 'builder',   'file' => 'builder.php'],
         ['prefix' => 'categories','file' => 'category.php'],
         ['prefix' => 'courses',   'file' => 'course.php'],
-        ['prefix' => 'billing',   'file' => 'billing.php'],
+        ['prefix' => 'platform',   'file' => 'platform.php'],
+        ['prefix' => 'invoices',   'file' => 'invoice.php'],
         ['prefix' => 'test',      'file' => 'feature-test.php'],
     ];
 

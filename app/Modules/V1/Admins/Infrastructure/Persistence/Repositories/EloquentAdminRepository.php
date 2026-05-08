@@ -16,10 +16,7 @@ class EloquentAdminRepository implements AdminRepositoryInterface
     public function create(array $attributes): Admin
     {
         $admin = Admin::create($attributes);
-
-        if (isset($attributes['role'])) {
-            $admin->assignRole($attributes['role']);
-        }
+        $admin->assignRole($attributes['role']);
 
         return $admin;
     }

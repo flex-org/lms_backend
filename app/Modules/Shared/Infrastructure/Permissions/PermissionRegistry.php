@@ -14,11 +14,6 @@ class PermissionRegistry implements PermissionRegistryInterface
         return self::FEATURE_PREFIX . $featureKey;
     }
 
-    public function resolveFeaturePermission(string $featureKey): string
-    {
-        return $this->featurePermission($featureKey);
-    }
-
     public function adminCapability(string $capability): string
     {
         return self::ADMIN_PREFIX . $capability;
